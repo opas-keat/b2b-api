@@ -1,13 +1,12 @@
 package fibercore
 
 import (
+	"github.com/gofiber/fiber/v2"
 	"models"
 	"models/gateway"
 	"models/status_code"
 	"shareerrors"
 	"strings"
-
-	"github.com/gofiber/fiber/v2"
 )
 
 func setUserLocal() fiber.Handler {

@@ -1,9 +1,11 @@
 package containers
 
 import (
-	"users/configs"
-
+	"fmt"
 	"go.uber.org/dig"
+	"user/configs"
+	"user/handlers/callback"
+	"user/infrastructure/server"
 )
 
 type AppContainer struct {
@@ -25,24 +27,24 @@ func NewAppContainer() (*AppContainer, error) {
 func (c *AppContainer) configure() error {
 	servicesConstructors := []interface{}{
 		configs.NewAppConfig,
-		// // infra
-		// server.NewFiberServ,
-		// database.New,
-		// // handlers
-		// callback.New,
-		// providerHandler.New,
-		// transactionService.New,
-		// // repo
-		// transaction.NewGormRepo,
-		// user.NewGormRepo,
-		// awc.New,
-		// // pkg
-		// tracer.New,
-		// rediscache.New,
-		// // connectors
-		// reportconnector.New,
-		// memberConnector.New,
-		// walletConnector.New,
+		// infra
+		server.NewFiberServ,
+		//database.New,
+		// handlers
+		callback.New,
+		//providerHandler.New,
+		//transactionService.New,
+		//// repo
+		//transaction.NewGormRepo,
+		//user.NewGormRepo,
+		//awc.New,
+		//// pkg
+		//tracer.New,
+		//rediscache.New,
+		//// connectors
+		//reportconnector.New,
+		//memberConnector.New,
+		//walletConnector.New,
 	}
 
 	for _, service := range servicesConstructors {
@@ -55,12 +57,12 @@ func (c *AppContainer) configure() error {
 }
 
 func (c *AppContainer) Start() error {
-	// if err := c.container.Invoke(func(s server.Server) {
-	// 	s.Start()
-	// }); err != nil {
-	// 	fmt.Printf("%s", err)
-	// 	return err
-	// }
+	if err := c.container.Invoke(func(s server.Server, config *configs.AppConfig) {
+		s.Start()
+	}); err != nil {
+		fmt.Printf("invoke %s", err)
+		return err
+	}
 
 	return nil
 }

@@ -4,5 +4,5 @@ use (
 	./pkg/fiber-core
 	./pkg/share-errors
 	./pkg/models
-	./services/users
+	./services/user
 )

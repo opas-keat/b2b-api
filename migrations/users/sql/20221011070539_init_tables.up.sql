@@ -1,5 +1,5 @@
 create table t_users (
-    uuid varchar (36) primary key,
+    id varchar (36) primary key,
     name varchar (255) not null,
     email varchar (255) unique not null,
     password_hash varchar (511) not null,
@@ -12,7 +12,7 @@ create table t_users (
 );
 
 create unique index idx_user_uuid
-    on t_users (uuid);
+    on t_users (id);
 CREATE UNIQUE INDEX idx_user_email
     ON t_users (email);
 

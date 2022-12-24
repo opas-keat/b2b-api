@@ -1,9 +1,8 @@
 package gateway
 
 import (
-	"models"
-
 	"github.com/AlekSi/pointer"
+	"models"
 )
 
 type User struct {

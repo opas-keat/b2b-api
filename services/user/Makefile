@@ -4,12 +4,12 @@ PROJECT_NAME := $(shell basename "$(PWD)")
 ## dev: run to start dev server
 .PHONY: dev
 dev:
-	$(shell grep -v '^#' .env.dev) $(shell go env GOPATH)/bin/air main.go
+	$(shell grep -v '^#' .env.dev) air main.go
 
 ## local: run to start local server
 .PHONY: local
 local:
-	$(shell grep -v '^#' .env) $(shell go env GOPATH)/bin/air main.go
+	$(shell grep -v '^#' .env) air main.go
 
 ## sec-scan: run for basically security test
 .PHONY: sec-scan
