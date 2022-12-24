@@ -1,0 +1,44 @@
+version: "3.9"
+
+services:
+# ---------------------------------- DB ----------------------------------
+  db:
+      image: postgres:15.1
+      restart: always
+      environment:
+        TZ: Asia/Bangkok
+        POSTGRES_MULTIPLE_DATABASES: $USERS_DB_NAME
+        POSTGRES_USER: ${DB_USER}
+        POSTGRES_PASSWORD: ${DB_PASSWORD}
+      volumes:
+      - pg_data:/var/lib/postgresql/data
+      - ./create-multiple-postgresql-databases.sh:/docker-entrypoint-initdb.d/create-multiple-postgresql-databases.sh
+      ports:
+      - "5433:5432"
+      networks:
+      - default
+  
+  db_init_delay:
+    image: alpine:3
+    command: sleep 5
+    depends_on:
+      db:
+        condition: service_started
+
+# ---------------------------------- Migration ----------------------------------
+  users_db_init:
+    image: migrate/migrate:4
+    volumes:
+    - $PWD/migrations/users/sql:/migrations
+    networks:
+    - default
+    command: -path=/migrations -database "postgres://db:5432/$USERS_DB_NAME?sslmode=disable&user=$DB_USER&password=$DB_PASSWORD" up
+    depends_on:
+      db_init_delay:
+        condition: service_completed_successfully
+
+volumes:
+  pg_data:
+
+networks:
+  default:

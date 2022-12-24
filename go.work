@@ -1,0 +1,8 @@
+go 1.19
+
+use (
+	./pkg/fiber-core
+	./pkg/share-errors
+	./pkg/models
+	./services/users
+)
