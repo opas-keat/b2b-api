@@ -4,5 +4,6 @@ use (
 	./pkg/fiber-core
 	./pkg/share-errors
 	./pkg/models
+	./pkg/validator
 	./services/user
 )

@@ -12,7 +12,7 @@ type Handlers struct {
 	//memberConnector    memberconnector.MemberConnector
 	//walletConnector    walletconnector.WalletConnector
 	//reportConnector    reportconnector.ReportConnector
-	//router             map[string]func(c *fiber.Ctx, requestMessage []byte) error
+	router map[string]func(c *fiber.Ctx, requestMessage []byte) error
 	//db                 *gorm.DB
 	//transactionService transactionService.Service
 }
@@ -35,22 +35,22 @@ func New(
 		//db:                 db,
 		//transactionService: transactionService,
 	}
-	//handler.router = map[string]func(c *fiber.Ctx, requestMessage []byte) error{
-	//	//constant.ActionGetBalance:       handler.getBalance,
-	//	//constant.ActionBet:              handler.bet,
-	//	//constant.ActionSettle:           handler.settle,
-	//	//constant.ActionUnsettle:         handler.unsettle,
-	//	//constant.ActionResettle:         handler.resettle,
-	//	//constant.ActionCancelBet:        handler.cancelBet,
-	//	//constant.ActionVoidBet:          handler.voidBet,
-	//	//constant.ActionVoidSettle:       handler.voidSettle,
-	//	//constant.ActionTip:              handler.tip,
-	//	//constant.ActionCancelTip:        handler.cancelTip,
-	//	//constant.ActionGive:             handler.give,
-	//	//constant.ActionBetNSettle:       handler.betNSettle,
-	//	//constant.ActionCancelBetNSettle: handler.cancelBetNSettle,
-	//	//constant.ActionFreeSpin:         handler.freeSpin,
-	//}
+	handler.router = map[string]func(c *fiber.Ctx, requestMessage []byte) error{
+		//	//constant.ActionGetBalance:       handler.getBalance,
+		//	//constant.ActionBet:              handler.bet,
+		//	//constant.ActionSettle:           handler.settle,
+		//	//constant.ActionUnsettle:         handler.unsettle,
+		//	//constant.ActionResettle:         handler.resettle,
+		//	//constant.ActionCancelBet:        handler.cancelBet,
+		//	//constant.ActionVoidBet:          handler.voidBet,
+		//	//constant.ActionVoidSettle:       handler.voidSettle,
+		//	//constant.ActionTip:              handler.tip,
+		//	//constant.ActionCancelTip:        handler.cancelTip,
+		//	//constant.ActionGive:             handler.give,
+		//	//constant.ActionBetNSettle:       handler.betNSettle,
+		//	//constant.ActionCancelBetNSettle: handler.cancelBetNSettle,
+		//	//constant.ActionFreeSpin:         handler.freeSpin,
+	}
 	return handler
 }
 

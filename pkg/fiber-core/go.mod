@@ -16,3 +16,8 @@ require (
 	github.com/valyala/tcplisten v1.0.0 // indirect
 	golang.org/x/sys v0.0.0-20220811171246-fbc7d0a398ab // indirect
 )
+
+replace (
+	models v0.0.0 => ../models
+	shareerrors v0.0.0 => ../share-errors
+)

@@ -3,16 +3,16 @@ module user
 go 1.19
 
 require (
-	fibercore v0.0.0
 	github.com/caarlos0/env/v6 v6.10.1
 	github.com/gofiber/fiber/v2 v2.40.1
 	github.com/tidwall/gjson v1.14.4
 	go.uber.org/automaxprocs v1.5.1
 	go.uber.org/dig v1.15.0
-	models v0.0.0
+	golang.org/x/crypto v0.0.0-20220214200702-86341886e292
 )
 
 require (
+	github.com/AlekSi/pointer v1.2.0 // indirect
 	github.com/andybalholm/brotli v1.0.4 // indirect
 	github.com/klauspost/compress v1.15.9 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
@@ -27,7 +27,4 @@ require (
 	golang.org/x/sys v0.0.0-20220811171246-fbc7d0a398ab // indirect
 )
 
-replace (
-	fibercore v0.0.0 => ../../pkg/fiber-core
-	models v0.0.0 => ../../pkg/models
-)
+

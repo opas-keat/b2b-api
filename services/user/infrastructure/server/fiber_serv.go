@@ -4,7 +4,6 @@ import (
 	"fibercore"
 	"fmt"
 	"github.com/gofiber/fiber/v2"
-	"log"
 	"os"
 	"os/signal"
 	"syscall"
@@ -48,23 +47,36 @@ func NewFiberServ(c *configs.AppConfig, h handlers.HandlerParams) Server {
 	return fiberServ
 }
 
+func (f *FiberServ) publicHandler(router fiber.Router) {
+	//router.Post("/register", dbTransactionMiddleware(f.db), f.handler.Users.Register)
+	router.Post("/register", f.handler.User.Register)
+	router.Get("/verifyemail/:code", f.handler.User.VerifyEmail)
+	router.Post("/auth/login", f.handler.User.Login)
+	router.Get("/auth/logout", f.handler.User.Logout)
+}
+
+func (f *FiberServ) userHandler(router fiber.Router) {
+	router.Get("/me", f.handler.User.Me)
+}
+
 func (f *FiberServ) configHandler() {
 	f.app.Use(fibercore.SetServiceName(constant.ServiceName))
-	v1 := f.app.Group("/api/v1/users")
+	v1 := f.app.Group("/api/v1")
 
-	callback := v1.Group("/callback")
-	callback.Post("/", f.handler.Callback.Corridor)
-	//
-	//provider := v1.Group("/provider")
-	//provider.Get("/launch_game", f.handler.Provider.LaunchGame)
+	public := v1.Group("/auth")
+	f.publicHandler(public)
+
+	members := v1.Group("/users")
+	f.userHandler(members)
 
 }
 
 func (f FiberServ) Start() {
 	go func() {
-		if err := f.app.Listen(fmt.Sprintf(":%v", f.config.Port)); err != nil {
-			log.Panic(err)
-		}
+		//if err := f.app.Listen(fmt.Sprintf(":%v", f.config.Port)); err != nil {
+		//	log.Panic(err)
+		//}
+		f.app.Listen("127.0.0.1:8080")
 	}()
 
 	c := make(chan os.Signal, 1)

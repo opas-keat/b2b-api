@@ -8,6 +8,7 @@ type User struct {
 	ID               string `gorm:"type:varchar(40);primary_key"`
 	Name             string `gorm:"type:varchar(255);not null"`
 	Email            string `gorm:"uniqueIndex;not null"`
+	DealerCode       string `gorm:"type:varchar(255);uniqueIndex;not null"`
 	Password         string `gorm:"not null"`
 	Role             string `gorm:"type:varchar(255);not null"`
 	Provider         string `gorm:"not null"`
@@ -32,12 +33,13 @@ type SignInInput struct {
 }
 
 type UserResponse struct {
-	ID        string    `json:"id,omitempty"`
-	Name      string    `json:"name,omitempty"`
-	Email     string    `json:"email,omitempty"`
-	Role      string    `json:"role,omitempty"`
-	Photo     string    `json:"photo,omitempty"`
-	Provider  string    `json:"provider"`
-	CreatedAt time.Time `json:"created_at"`
-	UpdatedAt time.Time `json:"updated_at"`
+	ID         string    `json:"id,omitempty"`
+	Name       string    `json:"name,omitempty"`
+	Email      string    `json:"email,omitempty"`
+	DealerCode string    `json:"dealer_code,omitempty"`
+	Role       string    `json:"role,omitempty"`
+	Photo      string    `json:"photo,omitempty"`
+	Provider   string    `json:"provider"`
+	CreatedAt  time.Time `json:"created_at"`
+	UpdatedAt  time.Time `json:"updated_at"`
 }

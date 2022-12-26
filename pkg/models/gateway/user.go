@@ -14,7 +14,6 @@ type User struct {
 	MemberID         string      `json:"memberId"`
 	Role             models.Role `json:"role"`
 	WalletID         string      `json:"wallet_id"`
-	AFWalletID       string      `json:"af_wallet_id"`
 }
 
 func (u User) GetActionBy() string {

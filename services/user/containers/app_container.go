@@ -5,6 +5,7 @@ import (
 	"go.uber.org/dig"
 	"user/configs"
 	"user/handlers/callback"
+	userHandler "user/handlers/user"
 	"user/infrastructure/server"
 )
 
@@ -32,6 +33,7 @@ func (c *AppContainer) configure() error {
 		//database.New,
 		// handlers
 		callback.New,
+		userHandler.New,
 		//providerHandler.New,
 		//transactionService.New,
 		//// repo

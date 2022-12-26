@@ -9,11 +9,50 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/pprof"
 	"github.com/gofiber/fiber/v2/middleware/requestid"
 	"github.com/gofiber/fiber/v2/utils"
+	"models"
+	"models/status_code"
 	"os"
+	"shareerrors"
+	"strings"
 )
 
 func NewApp() *fiber.App {
-	app := fiber.New(fiber.Config{})
+	app := fiber.New(fiber.Config{
+		ErrorHandler: func(ctx *fiber.Ctx, err error) error {
+			if err != nil {
+				// Status code defaults to 500
+				code := fiber.StatusInternalServerError
+				serviceName, _ := ctx.Locals(models.ServiceNameContextKey).(string)
+
+				switch e := err.(type) {
+				case *shareerrors.Error:
+					return ctx.Status(code).JSON(models.Response[any]{
+						Code:       fmt.Sprintf("%v_%v", strings.ToUpper(serviceName), e.StatusCode),
+						StatusCode: e.StatusCode,
+						Message:    e.Message,
+						Data:       &e.Data,
+					})
+				default:
+					if e, ok := err.(*fiber.Error); ok {
+						return ctx.Status(code).JSON(models.Response[any]{
+							Code:       fmt.Sprintf("%v_%v", strings.ToUpper(serviceName), e.Code),
+							StatusCode: status_code.Internal,
+							Message:    e.Error(),
+							Data:       nil,
+						})
+					}
+
+					return ctx.Status(code).JSON(models.Response[any]{
+						Code:       fmt.Sprintf("%v_%v", strings.ToUpper(serviceName), status_code.Internal),
+						StatusCode: status_code.Internal,
+						Message:    e.Error(),
+						Data:       nil,
+					})
+				}
+			}
+			return nil
+		},
+	})
 	app.Use(requestid.New(requestid.Config{
 		Next:       nil,
 		Header:     fiber.HeaderXRequestID,
