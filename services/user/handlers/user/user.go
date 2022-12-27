@@ -58,8 +58,12 @@ func (h *Handlers) Login(c *fiber.Ctx) error {
 }
 
 func (h *Handlers) VerifyEmail(c *fiber.Ctx) error {
-	var response = "VerifyEmail"
-	return fibercore.JSONSuccess(c, response)
+	code := c.Params("code")
+	resp, err := h.userService.VerifyEmail(c.UserContext(), code)
+	if err != nil {
+		return err
+	}
+	return fibercore.JSONSuccess(c, resp)
 }
 
 func (h *Handlers) Register(c *fiber.Ctx) error {

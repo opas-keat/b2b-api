@@ -54,12 +54,12 @@ func (s ServiceImpl) Register(ctx context.Context, req models.RegisterUserReques
 	verificationCode := utils.Encode(code)
 	em := entities.User{VerificationCode: verificationCode}
 	if err := s.userRepo.Update(ctx, newUser.ID, em); err != nil {
-		return resp, err
+		//return resp, err
 	}
 
 	// ? Send Email
 	emailData := email.Email{
-		URL:       constant.ClientOrigin + "/verifyemail/" + code,
+		URL:       constant.ClientOrigin + "/api/v1/verifyemail/" + code,
 		FirstName: "Hello",
 		Subject:   "Your account verification code",
 	}

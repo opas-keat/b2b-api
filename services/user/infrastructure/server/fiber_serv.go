@@ -61,6 +61,9 @@ func (f *FiberServ) publicHandler(router fiber.Router) {
 	//router.Post("/register", dbTransactionMiddleware(f.db), f.handler.Users.Register)
 	router.Post("/register", dbTransactionMiddleware(f.db), f.handler.User.Register)
 	router.Get("/verifyemail/:code", f.handler.User.VerifyEmail)
+}
+
+func (f *FiberServ) authHandler(router fiber.Router) {
 	router.Post("/login", f.handler.User.Login)
 	router.Get("/logout", f.handler.User.Logout)
 }
@@ -73,11 +76,13 @@ func (f *FiberServ) configHandler() {
 	f.app.Use(fibercore.SetServiceName(constant.ServiceName))
 	v1 := f.app.Group("/api/v1")
 
-	public := v1.Group("/auth")
-	f.publicHandler(public)
+	f.publicHandler(v1)
 
-	members := v1.Group("/users")
-	f.userHandler(members)
+	auth := v1.Group("/auth")
+	f.authHandler(auth)
+
+	user := v1.Group("/user")
+	f.userHandler(user)
 
 }
 
