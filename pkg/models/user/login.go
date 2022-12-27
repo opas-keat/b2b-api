@@ -3,8 +3,9 @@ package user
 import "models/gateway"
 
 type LoginRequest struct {
-	Username string `json:"username" validate:"required"`
-	Password string `json:"password" validate:"required"`
+	Email      string `json:"email" validate:"required"`
+	Password   string `json:"password" validate:"required"`
+	DealerCode string `json:"dealer_code" validate:"required"`
 }
 
 type LoginResponse struct {

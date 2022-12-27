@@ -15,8 +15,8 @@ type RegisterUserRequest struct {
 }
 
 type CreateUserResponse struct {
-	MemberID  string    `json:"member_id"`
-	Username  string    `json:"username"`
+	ID        string    `json:"id"`
+	Email     string    `json:"email"`
 	CreatedAt time.Time `json:"created_at"`
-	LoginResponse
+	//LoginResponse
 }

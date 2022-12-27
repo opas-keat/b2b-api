@@ -4,6 +4,7 @@ import (
 	"fibercore"
 	"fmt"
 	"github.com/gofiber/fiber/v2"
+	"gorm.io/gorm"
 	"os"
 	"os/signal"
 	"syscall"
@@ -16,7 +17,7 @@ type FiberServ struct {
 	config  *configs.AppConfig
 	app     *fiber.App
 	handler handlers.HandlerParams
-	//db      *gorm.DB
+	db      *gorm.DB
 }
 
 //func NewFiberServ(c *configs.AppConfig, h handlers.HandlerParams, db *gorm.DB) Server {
@@ -33,26 +34,35 @@ type FiberServ struct {
 //	return fiberServ
 //}
 
-func NewFiberServ(c *configs.AppConfig, h handlers.HandlerParams) Server {
+func NewFiberServ(c *configs.AppConfig, h handlers.HandlerParams, db *gorm.DB) Server {
 	app := fibercore.NewApp()
 	//app.Use(fibercore.OpentracingMiddleware(nil))
 	fiberServ := &FiberServ{
 		config:  c,
 		app:     app,
 		handler: h,
-		//db:      db,
+		db:      db,
 	}
 	fiberServ.configHandler()
 
 	return fiberServ
 }
 
+func dbTransactionMiddleware(db *gorm.DB) fiber.Handler {
+	return func(c *fiber.Ctx) error {
+		return db.Transaction(func(tx *gorm.DB) error {
+			c.Locals(constant.TxContextKey, tx)
+			return c.Next()
+		})
+	}
+}
+
 func (f *FiberServ) publicHandler(router fiber.Router) {
 	//router.Post("/register", dbTransactionMiddleware(f.db), f.handler.Users.Register)
-	router.Post("/register", f.handler.User.Register)
+	router.Post("/register", dbTransactionMiddleware(f.db), f.handler.User.Register)
 	router.Get("/verifyemail/:code", f.handler.User.VerifyEmail)
-	router.Post("/auth/login", f.handler.User.Login)
-	router.Get("/auth/logout", f.handler.User.Logout)
+	router.Post("/login", f.handler.User.Login)
+	router.Get("/logout", f.handler.User.Logout)
 }
 
 func (f *FiberServ) userHandler(router fiber.Router) {

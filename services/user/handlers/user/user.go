@@ -6,21 +6,24 @@ import (
 	"models/status_code"
 	"models/user"
 	"shareerrors"
+	userService "user/service/user"
 	"validator"
 )
 
 type Handlers struct {
+	userService userService.Service
 }
 
-func New() *Handlers {
-	return &Handlers{}
+func New(uService userService.Service) *Handlers {
+	return &Handlers{uService}
 }
 
 func (h *Handlers) Me(c *fiber.Ctx) error {
-	//userDetail, err := fibercore.GetUserFromHeader(c)
-	//if err != nil {
-	//	return err
-	//}
+	userDetail, err := fibercore.GetUserFromHeader(c)
+	if err != nil {
+		return err
+	}
+	println(userDetail)
 
 	//me, err := h.memberService.Me(c.UserContext(), *userDetail)
 	//if err != nil {
@@ -36,8 +39,25 @@ func (h *Handlers) Logout(c *fiber.Ctx) error {
 }
 
 func (h *Handlers) Login(c *fiber.Ctx) error {
-	var response = "Login"
-	return fibercore.JSONSuccess(c, response)
+	req := new(user.LoginRequest)
+	if err := c.BodyParser(req); err != nil {
+		return shareerrors.NewError(status_code.BadRequest, err.Error())
+	}
+	println("email: " + req.Email)
+	println("password: " + req.Password)
+	println("dealer_code: " + req.DealerCode)
+	if err := validator.ValidateStruct(req); err != nil {
+		return err
+	}
+	resp, err := h.userService.Login(c.UserContext(), req.Email, req.Password)
+	if err != nil {
+		return err
+	}
+	//c.Cookie(&fiber.Cookie{
+	//	Name:  "access_token",
+	//	Value: resp.AccessToken,
+	//})
+	return fibercore.JSONSuccess(c, resp)
 }
 
 func (h *Handlers) VerifyEmail(c *fiber.Ctx) error {
@@ -46,21 +66,18 @@ func (h *Handlers) VerifyEmail(c *fiber.Ctx) error {
 }
 
 func (h *Handlers) Register(c *fiber.Ctx) error {
-	//ipAddress, err := fibercore.GetIPAddress(c)
-	//if err != nil {
-	//	return err
-	//}
-	//req.IPAddress = *ipAddress
 	req := new(user.RegisterUserRequest)
 	if err := c.BodyParser(req); err != nil {
 		return shareerrors.NewError(status_code.BadRequest, err.Error())
 	}
-	//println("pass: " + req.Password)
 	println("email: " + req.Email)
-	//println("code: " + req.DealerCode)
 	if err := validator.ValidateStruct(req); err != nil {
 		return err
 	}
-	var response = "Register"
-	return fibercore.JSONSuccess(c, response)
+
+	resp, err := h.userService.Register(c.UserContext(), *req)
+	if err != nil {
+		return err
+	}
+	return fibercore.JSONSuccess(c, resp)
 }

@@ -36,10 +36,8 @@ func init() {
 }
 
 func ValidateStruct[T any](structRule T) *shareerrors.Error {
-	println("ValidateStruct")
 	if err := Validate.Struct(structRule); err != nil {
 		formError := shareerrors.NewError(status_code.BadRequest, "Wrong Input")
-		println(formError)
 		if err != nil {
 			fieldError := make([]shareerrors.FieldError, len(err.(validator.ValidationErrors)))
 			for i, e := range err.(validator.ValidationErrors) {

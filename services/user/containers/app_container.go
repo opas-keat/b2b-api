@@ -6,7 +6,10 @@ import (
 	"user/configs"
 	"user/handlers/callback"
 	userHandler "user/handlers/user"
+	"user/infrastructure/database"
 	"user/infrastructure/server"
+	"user/repo/user"
+	userService "user/service/user"
 )
 
 type AppContainer struct {
@@ -30,15 +33,17 @@ func (c *AppContainer) configure() error {
 		configs.NewAppConfig,
 		// infra
 		server.NewFiberServ,
-		//database.New,
+		database.New,
 		// handlers
 		callback.New,
 		userHandler.New,
 		//providerHandler.New,
 		//transactionService.New,
-		//// repo
+		// services
+		userService.New,
+		// repo
 		//transaction.NewGormRepo,
-		//user.NewGormRepo,
+		user.NewGormRepo,
 		//awc.New,
 		//// pkg
 		//tracer.New,
