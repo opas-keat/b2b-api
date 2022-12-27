@@ -4,12 +4,15 @@ import (
 	"context"
 	"github.com/AlekSi/pointer"
 	"github.com/jinzhu/copier"
+	"github.com/thanhpk/randstr"
+	"models/email"
 	shareModels "models/status_code"
 	models "models/user"
 	"shareerrors"
 	"strings"
 	"user/constant"
 	"user/entities"
+	"user/utils"
 )
 
 func (s ServiceImpl) Register(ctx context.Context, req models.RegisterUserRequest) (*models.CreateUserResponse, error) {
@@ -20,20 +23,21 @@ func (s ServiceImpl) Register(ctx context.Context, req models.RegisterUserReques
 		return nil, shareerrors.NewError(shareModels.Duplicate, "email is duplicate")
 	}
 
-	mQuery, err := s.userRepo.Create(ctx, entities.User{
+	newUser, err := s.userRepo.Create(ctx, entities.User{
 		Email:        req.Email,
 		PasswordHash: req.Password,
 		DealerCode:   req.DealerCode,
 		CreatedBy:    pointer.ToString(constant.SystemUID),
 		UpdatedBy:    pointer.ToString(constant.SystemUID),
-		RoleName:     "USER",
+		RoleName:     "user",
+		Verified:     false,
 	})
 	if err != nil {
 		return nil, err
 	}
 
 	resp := new(models.CreateUserResponse)
-	if err := copier.Copy(resp, mQuery); err != nil {
+	if err := copier.Copy(resp, newUser); err != nil {
 		return nil, err
 	}
 
@@ -43,5 +47,23 @@ func (s ServiceImpl) Register(ctx context.Context, req models.RegisterUserReques
 	//}
 	//resp.LoginResponse.AccessToken = pointer.GetString(accessToken)
 	//resp.LoginResponse.RefreshToken = pointer.GetString(refreshToken)
+
+	// Generate Verification Code
+	code := randstr.String(20)
+
+	verificationCode := utils.Encode(code)
+	em := entities.User{VerificationCode: verificationCode}
+	if err := s.userRepo.Update(ctx, newUser.ID, em); err != nil {
+		return resp, err
+	}
+
+	// ? Send Email
+	emailData := email.Email{
+		URL:       constant.ClientOrigin + "/verifyemail/" + code,
+		FirstName: "Hello",
+		Subject:   "Your account verification code",
+	}
+
+	utils.SendEmail(&emailData)
 	return resp, nil
 }

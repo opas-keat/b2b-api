@@ -4,6 +4,8 @@ create table t_users (
     password_hash varchar (255) not null,
     dealer_code varchar(50) unique not null,
     role_name varchar(100) not null,
+    verified boolean not null default false,
+    verification_code varchar (255),
     created_by varchar,
     created_at timestamp with time zone not null,
     updated_by varchar,

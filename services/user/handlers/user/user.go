@@ -43,9 +43,6 @@ func (h *Handlers) Login(c *fiber.Ctx) error {
 	if err := c.BodyParser(req); err != nil {
 		return shareerrors.NewError(status_code.BadRequest, err.Error())
 	}
-	println("email: " + req.Email)
-	println("password: " + req.Password)
-	println("dealer_code: " + req.DealerCode)
 	if err := validator.ValidateStruct(req); err != nil {
 		return err
 	}

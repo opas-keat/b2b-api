@@ -4,7 +4,6 @@ import (
 	"github.com/caarlos0/env/v6"
 	"go.uber.org/dig"
 	"models"
-	"user/constant"
 )
 
 type AppConfig struct {
@@ -29,19 +28,21 @@ type AppConfig struct {
 	RefreshTokenPublic  string `env:"REFRESH_TOKEN_PUB"`
 
 	//JaegerEndpoint models.JaegerEndpoint `env:"JAEGER_ENDPOINT"`
+	//ClientOrigin string `env:"CLIENT_ORIGIN"`
 }
 
 type ExposeAppConfig struct {
 	dig.Out
 	AppConfig *AppConfig
 	//RedisConfig    *rediscache.RedisConfig
-	Mode models.Mode
+	//Mode models.Mode
 	//WalletURL      models.WalletURL
 	//ExternalURL    models.ExternalURL
 	//ReportURL      models.ReportURL
 	//ConfigURL      models.ConfigURL
-	ServiceName models.ServiceName
+	//ServiceName models.ServiceName
 	//JaegerEndpoint models.JaegerEndpoint
+	//ClientOrigin models.ClientOrigin
 }
 
 func NewAppConfig() (ExposeAppConfig, error) {
@@ -57,12 +58,13 @@ func NewAppConfig() (ExposeAppConfig, error) {
 	return ExposeAppConfig{
 		AppConfig: appCfg,
 		//RedisConfig:    &appCfg.Redis,
-		Mode: appCfg.Mode,
+		//Mode: appCfg.Mode,
 		//WalletURL:      appCfg.WalletURL,
 		//ExternalURL:    appCfg.ExternalURL,
 		//ReportURL:      appCfg.ReportURL,
 		//ConfigURL:      appCfg.ConfigURL,
 		//JaegerEndpoint: appCfg.JaegerEndpoint,
-		ServiceName: constant.ServiceName,
+		//ServiceName:  constant.ServiceName,
+		//ClientOrigin: models.ClientOrigin,
 	}, nil
 }

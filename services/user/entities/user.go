@@ -8,20 +8,17 @@ import (
 )
 
 type User struct {
-	ID string `gorm:"type:varchar(36);primary_key"`
-	//Name             string `gorm:"type:varchar(255);not null"`
-	Email        string `gorm:"uniqueIndex;not null"`
-	DealerCode   string `gorm:"type:varchar(255);uniqueIndex;not null"`
-	PasswordHash string `gorm:"column:password_hash;not null"`
-	RoleName     string `gorm:"column:role_name; not null"`
-	//Provider         string `gorm:"not null"`
-	//Photo            string `gorm:"not null"`
-	//VerificationCode string
-	//Verified         bool    `gorm:"not null"`
-	CreatedBy *string `gorm:"column:created_by"`
-	CreatedAt time.Time
-	UpdatedBy *string `gorm:"column:updated_by"`
-	UpdatedAt time.Time
+	CreatedAt        time.Time
+	UpdatedAt        time.Time
+	CreatedBy        *string `gorm:"column:created_by"`
+	UpdatedBy        *string `gorm:"column:updated_by"`
+	ID               string  `gorm:"type:varchar(36);primary_key"`
+	Email            string  `gorm:"uniqueIndex;not null"`
+	DealerCode       string  `gorm:"type:varchar(255);uniqueIndex;not null"`
+	PasswordHash     string  `gorm:"column:password_hash;not null"`
+	RoleName         string  `gorm:"column:role_name;not null"`
+	VerificationCode string  `gorm:"column:verification_code"`
+	Verified         bool    `gorm:"column:verified;not null"`
 }
 
 func (*User) TableName() string {
