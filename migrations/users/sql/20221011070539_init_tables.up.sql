@@ -21,7 +21,7 @@ create unique index idx_t_users_email
     on t_users (email);
 
 insert into t_users (created_at, updated_at, created_by, updated_by, email, dealer_code, password_hash, role_name, verification_code, verified, id)
-values ('2022-12-28 09:21:42.395','2022-12-28 09:21:42.395','u_system','u_system','admin@ppsw.com','123456','$2a$10$kpzqCBFQjFjPQHBA43h/y.7p6ZBd7pyVF8IxEGUjudc9W5oYwyKJ6','admin','',false,'e2bb7391-9a6f-4b36-ad54-11df22c2355d');
+values ('2022-12-28 09:21:42.395','2022-12-28 09:21:42.395','u_system','u_system','admin@ppsw.com','999999999','$2a$10$kpzqCBFQjFjPQHBA43h/y.7p6ZBd7pyVF8IxEGUjudc9W5oYwyKJ6','admin','',false,'e2bb7391-9a6f-4b36-ad54-11df22c2355d');
 
 -------- create t_dealers --------
 create table t_dealers (

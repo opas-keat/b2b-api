@@ -39,12 +39,12 @@ func ParseTemplateDir(dir string) (*template.Template, error) {
 
 func SendEmail(data *email.Email) {
 	// Sender data.
-	from := "ppsuperwheel.b2b@gmail.com"
-	smtpPass := "e051356a50db51"
-	smtpUser := "cacae0b9ea4212"
+	from := "noreply@ppsuperwheels.com"
+	smtpPass := "+PPsuper@1234"
+	smtpUser := "noreply@ppsuperwheels.com"
 	to := "opas.keat@gmail.com"
-	smtpHost := "smtp.mailtrap.io"
-	smtpPort := 587
+	smtpHost := "mail.ppsuperwheels.com"
+	smtpPort := 25
 
 	var body bytes.Buffer
 
