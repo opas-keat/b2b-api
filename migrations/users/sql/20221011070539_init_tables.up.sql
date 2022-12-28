@@ -19,3 +19,5 @@ create unique index idx_user_id
 CREATE UNIQUE INDEX idx_user_email
     ON t_users (email);
 
+INSERT INTO t_users (created_at,updated_at,created_by,updated_by,email,dealer_code,password_hash,role_name,verification_code,verified,id)
+VALUES ('2022-12-28 09:21:42.395','2022-12-28 09:21:42.395','u_system','u_system','admin@ppsw.com','123456','$2a$10$kpzqCBFQjFjPQHBA43h/y.7p6ZBd7pyVF8IxEGUjudc9W5oYwyKJ6','admin','',false,'e2bb7391-9a6f-4b36-ad54-11df22c2355d')

@@ -31,53 +31,66 @@ func GetIPAddress(c *fiber.Ctx) (*string, error) {
 
 func GetUserFromHeader(c *fiber.Ctx) (*gateway.User, error) {
 	var (
-		headerXUserName = c.Locals(models.HeaderXUsername).(string)
-		headerXMemberId = c.Locals(models.HeaderXMemberID).(string)
-		headerXRole     = c.Locals(models.HeaderXRole).(string)
-		headerXAgentID  = c.Locals(models.HeaderXAgentID).(string)
-		headerXMasterID = c.Locals(models.HeaderXMasterID).(string)
-		headerXReferrer = c.Locals(models.HeaderReferrer).(string)
+		//headerXUserName     = c.Locals(models.HeaderXUsername).(string)
+		//headerXMemberId     = c.Locals(models.HeaderXMemberID).(string)
+		//headerXRole         = c.Locals(models.HeaderXRole).(string)
+		//headerXAgentID      = c.Locals(models.HeaderXAgentID).(string)
+		//headerXMasterID     = c.Locals(models.HeaderXMasterID).(string)
+		//headerXReferrer     = c.Locals(models.HeaderReferrer).(string)
+		headerAuthorization = c.Locals(models.HeaderAuthorization).(string)
 	)
 
-	if headerXUserName == "" {
-		return nil, shareerrors.NewError(status_code.BadRequest, "Header X-Username is require")
+	//if headerXUserName == "" {
+	//	return nil, shareerrors.NewError(status_code.BadRequest, "Header X-Username is require")
+	//}
+	//
+	//if headerXMemberId == "" {
+	//	return nil, shareerrors.NewError(status_code.BadRequest, "Header X-Member-ID is require")
+	//}
+	//
+	//if headerXRole == "" {
+	//	return nil, shareerrors.NewError(status_code.BadRequest, "Header X-Role is require")
+	//}
+	//
+	//ipAddress, err := GetIPAddress(c)
+	//if err != nil {
+	//	return nil, err
+	//}
+	//
+	//role, ok := models.MappingToRole[c.Get(models.HeaderXRole)]
+	//if !ok {
+	//	return nil, shareerrors.NewError(status_code.BadRequest, "Header X-Role invalid")
+	//}
+	//
+	//agentID := &headerXAgentID
+	//if headerXAgentID == "" {
+	//	agentID = nil
+	//}
+	//
+	//masterID := &headerXMasterID
+	//if headerXMasterID == "" {
+	//	masterID = nil
+	//}
+
+	var token string
+	fields := strings.Fields(headerAuthorization)
+	if len(fields) != 0 && fields[0] == "Bearer" {
+		token = fields[1]
+	} else {
+		return nil, shareerrors.NewError(status_code.Forbidden, "Authorization is require")
+	}
+	if token == "" {
+		return nil, shareerrors.NewError(status_code.Forbidden, "Authorization is require")
 	}
 
-	if headerXMemberId == "" {
-		return nil, shareerrors.NewError(status_code.BadRequest, "Header X-Member-ID is require")
-	}
-
-	if headerXRole == "" {
-		return nil, shareerrors.NewError(status_code.BadRequest, "Header X-Role is require")
-	}
-
-	ipAddress, err := GetIPAddress(c)
-	if err != nil {
-		return nil, err
-	}
-
-	role, ok := models.MappingToRole[c.Get(models.HeaderXRole)]
-	if !ok {
-		return nil, shareerrors.NewError(status_code.BadRequest, "Header X-Role invalid")
-	}
-
-	agentID := &headerXAgentID
-	if headerXAgentID == "" {
-		agentID = nil
-	}
-
-	masterID := &headerXMasterID
-	if headerXMasterID == "" {
-		masterID = nil
-	}
-
+	//sub, err := utils.ValidateToken(token, AccessTokenPrivate)
 	return &gateway.User{
-		Username:         headerXUserName,
-		AgentID:          agentID,
-		MasterID:         masterID,
-		IPAddress:        *ipAddress,
-		MemberID:         headerXMemberId,
-		Role:             role,
-		ReferrerMemberID: headerXReferrer,
+		Username:         "",
+		AgentID:          nil,
+		MasterID:         nil,
+		IPAddress:        "",
+		MemberID:         token,
+		Role:             "",
+		ReferrerMemberID: "",
 	}, nil
 }

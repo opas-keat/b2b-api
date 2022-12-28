@@ -10,6 +10,7 @@ import (
 	"models/user"
 	"strings"
 	"time"
+	"user/constant"
 	"user/entities"
 	"user/utils"
 )
@@ -38,7 +39,6 @@ import (
 
 func createAccessToken(userID string, role string, expiresAt time.Time, jwtPrivateKey *rsa.PrivateKey) (accessToken, tokenID *string, err error) {
 	id := fmt.Sprintf("at-%v-%v:%v", userID, time.Now().UTC().Unix(), time.Now().UTC().UnixNano())
-	println(id)
 	claims := jwt.NewWithClaims(jwt.SigningMethodRS256, entities.UserClaims{
 		RegisteredClaims: jwt.RegisteredClaims{
 			Issuer:    "user-service",
@@ -62,7 +62,7 @@ func createRefreshToken(userID, accessTokenID string, expiresAt time.Time, jwtPr
 	id := fmt.Sprintf("rft-%v:%v", time.Now().UTC().Unix(), time.Now().UTC().UnixNano())
 	claims := jwt.NewWithClaims(jwt.SigningMethodRS256, entities.RefreshClaims{
 		RegisteredClaims: jwt.RegisteredClaims{
-			Issuer:    "lotto-service",
+			Issuer:    "user-service",
 			ExpiresAt: jwt.NewNumericDate(expiresAt),
 			IssuedAt:  jwt.NewNumericDate(time.Now()),
 			ID:        id,
@@ -84,7 +84,7 @@ func (s ServiceImpl) createLoginToken(ctx context.Context, m entities.User) (acc
 		accessTokenExpiresAt  = time.Now().Add(10 * time.Minute)
 		refreshTokenExpiresAt = time.Now().Add(8 * time.Hour)
 		//role                  = models.MappingToRole[string(m.RoleName)]
-		role = "USER"
+		role = m.RoleName
 	)
 
 	accessToken, accessTokenID, err := createAccessToken(m.ID, role, accessTokenExpiresAt, s.accessTokenKey)
@@ -106,19 +106,34 @@ func (s ServiceImpl) Login(ctx context.Context, username, password string) (*use
 	username = strings.ToLower(username)
 	m, err := s.userRepo.Get(ctx, entities.User{Email: username})
 	if err != nil {
-		return nil, err
+		return nil, errors.New("invalid email or password")
 	}
 
+	if !m.Verified {
+		return nil, errors.New("please verify your email")
+	}
 	if !utils.CheckPasswordHash(password, m.PasswordHash) {
-		return nil, errors.New("password not match")
+		return nil, errors.New("invalid email or password")
 	}
 
-	accessToken, refreshToken, err := s.createLoginToken(ctx, *m)
+	//accessToken, refreshToken, err := s.createLoginToken(ctx, *m)
+	//if err != nil {
+	//	return nil, err
+	//}
+
+	//var (
+	//	accessTokenExpiresAt  = time.Now().Add(10 * time.Minute)
+	//	refreshTokenExpiresAt = time.Now().Add(8 * time.Hour)
+	//	//role                  = models.MappingToRole[string(m.RoleName)]
+	//	role = m.RoleName
+	//)
+
+	token, err := utils.GenerateToken(60*time.Minute, m.ID, constant.PrivateKey)
 	if err != nil {
-		return nil, err
+		return nil, errors.New(err.Error())
 	}
 	return &user.LoginResponse{
-		AccessToken:  pointer.GetString(accessToken),
-		RefreshToken: pointer.GetString(refreshToken),
+		AccessToken:  token,
+		RefreshToken: token,
 	}, nil
 }

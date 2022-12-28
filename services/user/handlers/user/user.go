@@ -23,13 +23,10 @@ func (h *Handlers) Me(c *fiber.Ctx) error {
 	if err != nil {
 		return err
 	}
-	println(userDetail)
-
-	//me, err := h.memberService.Me(c.UserContext(), *userDetail)
-	//if err != nil {
-	//	return err
-	//}
-	var me = "me"
+	me, err := h.userService.Me(c.UserContext(), *userDetail)
+	if err != nil {
+		return err
+	}
 	return fibercore.JSONSuccess(c, me)
 }
 
