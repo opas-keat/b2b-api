@@ -13,11 +13,14 @@ type Product struct {
 	FTTreadwareNameTH   string  `gorm:"column:FTTreadwareNameTH"`
 	FTPitchCircleCode   string  `gorm:"column:FTPitchCircleCode"`
 	FNPrice             float64 `gorm:"column:FNPrice"`
-	FPProdImage         []byte  `gorm:"column:FPProdImage"`
-	FTProdImage         string  `json:"fTProdImage"`
 	FNDealerPrice1      float64 `gorm:"column:FNDealerPrice1"`
 }
 
 func (*Product) TableName() string {
 	return string("DBWebApp.dbo.V_MasterProd")
+}
+
+type BrandAndModel struct {
+	FTBrandNameTH string `gorm:"column:FTBrandNameTH"`
+	FTModelNameTH string `gorm:"column:FTModelNameTH"`
 }

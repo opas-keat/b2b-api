@@ -23,6 +23,7 @@ func (s ServiceImpl) ListDealerByCode(ctx context.Context, filter dealer.ListDea
 	if err != nil {
 		return nil, err
 	}
+
 	rows := lop.Map[entities.Dealer, dealer.DealerResponse](*result, func(d entities.Dealer, _ int) dealer.DealerResponse {
 		return dealer.DealerResponse{
 			ID:      strconv.FormatUint(uint64(d.FNMSysCustId), 10),
