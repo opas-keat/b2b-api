@@ -20,3 +20,9 @@ type BrandAndModelResponse struct {
 	Brand string `json:"brand"`
 	Model string `json:"model"`
 }
+
+type ListBrandAndModelRequest struct {
+	Brand       string `json:"brand"`
+	Model       string `json:"model"`
+	ProductType string `query:"product_type" json:"product_type"`
+}

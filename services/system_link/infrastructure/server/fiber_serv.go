@@ -40,8 +40,9 @@ func (f *FiberServ) dealerHandler(router fiber.Router) {
 }
 
 func (f *FiberServ) productHandler(router fiber.Router) {
+	router.Get("/bams", f.handler.Product.ListBrandAndModel)
 	router.Get("/:product_code", f.handler.Product.GetProductByCode)
-	router.Get("/bams/:product_type", f.handler.Product.ListBrandAndModel)
+
 }
 
 func (f *FiberServ) configHandler() {

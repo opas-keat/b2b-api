@@ -7,6 +7,13 @@ import (
 )
 
 type Service interface {
-	GetProductByCode(ctx context.Context, code string) (*product.ProductResponse, error)
-	ListBrandAndModel(ctx context.Context, productType string) (*models.ListResponse[product.BrandAndModelResponse], error)
+	GetProductByCode(
+		ctx context.Context,
+		code string,
+	) (*product.ProductResponse, error)
+	ListBrandAndModel(
+		ctx context.Context,
+		filter product.ListBrandAndModelRequest,
+		pagination models.Pagination,
+	) (*models.ListResponse[product.BrandAndModelResponse], error)
 }

@@ -9,16 +9,16 @@ import (
 	"systemlink/entities"
 )
 
-func (s ServiceImpl) ListBrandAndModel(ctx context.Context, productType string) (*models.ListResponse[product.BrandAndModelResponse], error) {
+func (s ServiceImpl) ListBrandAndModel(ctx context.Context, filter product.ListBrandAndModelRequest, pagination models.Pagination) (*models.ListResponse[product.BrandAndModelResponse], error) {
 	var brandName, productGroup []string
-	if productType == "1" {
+	if filter.ProductType == "1" {
 		brandName = []string{"COSMIS", "COSMIS2", "FATTAH", "FORCE", "NAYA", "UNIVERSE", "VALENZA"}
 		productGroup = []string{"COMPLICATED", "FACTORY"}
 	} else {
 		brandName = []string{"COSMIS", "DOUBLESTAR", "ZESTINO"}
 		productGroup = []string{"TIRE-NEW PP"}
 	}
-	result, count, err := s.productRepo.ListBrandAndModel(ctx, pointer.To(models.Count{}), brandName, productGroup)
+	result, count, err := s.productRepo.ListBrandAndModel(ctx, &pagination, pointer.To(models.Count{}), brandName, productGroup)
 	if err != nil {
 		return nil, err
 	}
