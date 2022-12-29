@@ -37,7 +37,10 @@ func NewFiberServ(c *configs.AppConfig, h handlers.HandlerParams, db *gorm.DB) S
 func (f *FiberServ) dealerHandler(router fiber.Router) {
 	router.Post("/", f.handler.Dealer.ListDealerByCode)
 	router.Get("/:dealer_code", f.handler.Dealer.GetDealerByCode)
+}
 
+func (f *FiberServ) productHandler(router fiber.Router) {
+	router.Get("/:product_code", f.handler.Product.GetProductByCode)
 }
 
 func (f *FiberServ) configHandler() {
@@ -46,6 +49,9 @@ func (f *FiberServ) configHandler() {
 
 	dealers := v1.Group("/dealers")
 	f.dealerHandler(dealers)
+
+	products := v1.Group("/products")
+	f.productHandler(products)
 }
 
 func (f *FiberServ) Start() {
