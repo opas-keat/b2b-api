@@ -14,6 +14,7 @@ type ProductResponse struct {
 	PitchCircleCode string  `json:"pitch_circle_code"`
 	Price           float64 `json:"price"`
 	DealerPrice1    float64 `json:"dealer_price_1"`
+	GroupCode       string  `json:"group_code"`
 }
 
 type BrandAndModelResponse struct {

@@ -27,5 +27,6 @@ func (s ServiceImpl) GetProductByCode(ctx context.Context, code string) (*produc
 		Price:           p.FNPrice,
 		ThreadWare:      p.FTTreadwareNameTH,
 		Width:           p.FTWidthNameTH,
+		GroupCode:       p.FTProdGrpCode,
 	}, nil
 }
