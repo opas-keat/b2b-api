@@ -7,10 +7,13 @@ import (
 	"os"
 	"systemlink/configs"
 	dealerHandler "systemlink/handlers/dealer"
+	productHandler "systemlink/handlers/product"
 	"systemlink/infrastructure/database"
 	"systemlink/infrastructure/server"
 	"systemlink/repo/dealer"
+	"systemlink/repo/product"
 	dealerService "systemlink/service/dealer"
+	productService "systemlink/service/product"
 )
 
 type AppContainer struct {
@@ -37,10 +40,13 @@ func (c *AppContainer) configure() error {
 		database.New,
 		// repo
 		dealer.NewGormRepo,
+		product.NewGormRepo,
 		// services
 		dealerService.New,
+		productService.New,
 		// handlers
 		dealerHandler.New,
+		productHandler.New,
 	}
 
 	for _, service := range servicesConstructors {
