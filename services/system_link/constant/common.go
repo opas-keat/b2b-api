@@ -1,5 +1,6 @@
 package constant
 
 const (
-	ServiceName = "systemlink"
+	ServiceName  = "systemlink"
+	TxContextKey = "@db-tx"
 )

@@ -3,7 +3,7 @@ package repo
 import (
 	"context"
 	"gorm.io/gorm"
-	"user/constant"
+	"systemlink/constant"
 )
 
 func GetTxFromContext(ctx context.Context) *gorm.DB {

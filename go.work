@@ -6,5 +6,5 @@ use (
 	./pkg/models
 	./pkg/validator
 	./services/system_link
-	./services/user
+	./services/b2b
 )
