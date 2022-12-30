@@ -7,4 +7,5 @@ use (
 	./pkg/validator
 	./services/system_link
 	./services/b2b
+	./services/product
 )
