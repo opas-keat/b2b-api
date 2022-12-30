@@ -7,7 +7,7 @@ services:
       restart: always
       environment:
         TZ: Asia/Bangkok
-        POSTGRES_MULTIPLE_DATABASES: $USERS_DB_NAME
+        POSTGRES_MULTIPLE_DATABASES: $MEMBER_DB_NAME,$PRODUCT_DB_NAME,$PURCHASE_DB_NAME
         POSTGRES_USER: ${DB_USER}
         POSTGRES_PASSWORD: ${DB_PASSWORD}
       volumes:
@@ -26,13 +26,35 @@ services:
         condition: service_started
 
 # ---------------------------------- Migration ----------------------------------
-  users_db_init:
+  member_db_init:
     image: migrate/migrate:4
     volumes:
-    - $PWD/migrations/users/sql:/migrations
+    - $PWD/migrations/member/sql:/migrations
     networks:
     - default
-    command: -path=/migrations -database "postgres://db:5432/$USERS_DB_NAME?sslmode=disable&user=$DB_USER&password=$DB_PASSWORD" up
+    command: -path=/migrations -database "postgres://db:5432/$MEMBER_DB_NAME?sslmode=disable&user=$DB_USER&password=$DB_PASSWORD" up
+    depends_on:
+      db_init_delay:
+        condition: service_completed_successfully
+
+  product_db_init:
+    image: migrate/migrate:4
+    volumes:
+      - $PWD/migrations/product/sql:/migrations
+    networks:
+      - default
+    command: -path=/migrations -database "postgres://db:5432/$PRODUCT_DB_NAME?sslmode=disable&user=$DB_USER&password=$DB_PASSWORD" up
+    depends_on:
+      db_init_delay:
+        condition: service_completed_successfully
+
+  purchase_db_init:
+    image: migrate/migrate:4
+    volumes:
+      - $PWD/migrations/purchase/sql:/migrations
+    networks:
+      - default
+    command: -path=/migrations -database "postgres://db:5432/$PURCHASE_DB_NAME?sslmode=disable&user=$DB_USER&password=$DB_PASSWORD" up
     depends_on:
       db_init_delay:
         condition: service_completed_successfully
