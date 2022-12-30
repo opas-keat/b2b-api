@@ -48,12 +48,12 @@ func SendEmail(data *email.Email) {
 
 	var body bytes.Buffer
 
-	template, err := ParseTemplateDir("templates")
+	templateDir, err := ParseTemplateDir("templates")
 	if err != nil {
-		log.Fatal("Could not parse template", err)
+		log.Fatal("Could not parse templateDir", err)
 	}
 
-	template.ExecuteTemplate(&body, "verificationCode.html", &data)
+	templateDir.ExecuteTemplate(&body, "verificationCode.html", &data)
 
 	m := gomail.NewMessage()
 

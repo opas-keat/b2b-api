@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/gofiber/fiber/v2"
 	"gorm.io/gorm"
+	"log"
 	"os"
 	"os/signal"
 	"syscall"
@@ -88,10 +89,9 @@ func (f *FiberServ) configHandler() {
 
 func (f FiberServ) Start() {
 	go func() {
-		//if err := f.app.Listen(fmt.Sprintf(":%v", f.config.Port)); err != nil {
-		//	log.Panic(err)
-		//}
-		f.app.Listen("127.0.0.1:8080")
+		if err := f.app.Listen(fmt.Sprintf("127.0.0.1:%v", f.config.Port)); err != nil {
+			log.Panic(err)
+		}
 	}()
 
 	c := make(chan os.Signal, 1)
