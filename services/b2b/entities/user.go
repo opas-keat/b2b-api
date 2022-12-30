@@ -1,10 +1,10 @@
 package entities
 
 import (
+	"b2b/utils"
 	"github.com/google/uuid"
 	"gorm.io/gorm"
 	"time"
-	"user/utils"
 )
 
 type User struct {

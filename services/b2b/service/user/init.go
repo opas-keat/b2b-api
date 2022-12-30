@@ -1,11 +1,11 @@
 package user
 
 import (
+	"b2b/configs"
+	"b2b/repo/user"
 	"crypto/rsa"
 	"github.com/golang-jwt/jwt/v4"
 	"strings"
-	"user/configs"
-	"user/repo/user"
 )
 
 type ServiceImpl struct {

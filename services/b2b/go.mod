@@ -1,4 +1,4 @@
-module user
+module b2b
 
 go 1.19
 

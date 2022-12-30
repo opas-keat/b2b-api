@@ -1,12 +1,12 @@
 package user
 
 import (
+	"b2b/entities"
+	"b2b/utils"
 	"context"
 	shareModels "models/status_code"
 	"models/user"
 	"shareerrors"
-	"user/entities"
-	"user/utils"
 )
 
 func (s ServiceImpl) VerifyEmail(ctx context.Context, verificationCode string) (*user.VerifyEmailResponse, error) {

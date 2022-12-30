@@ -1,14 +1,14 @@
 package user
 
 import (
+	"b2b/constant"
+	"b2b/entities"
+	"b2b/utils"
 	"context"
 	"errors"
 	"models/user"
 	"strings"
 	"time"
-	"user/constant"
-	"user/entities"
-	"user/utils"
 )
 
 //func createAccessToken(userID string, role models.Role, expiresAt time.Time, jwtPrivateKey *rsa.PrivateKey) (accessToken, tokenID *string, err error) {

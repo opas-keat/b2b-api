@@ -1,8 +1,8 @@
 package user
 
 import (
+	"b2b/entities"
 	"context"
-	"user/entities"
 )
 
 type Repo interface {

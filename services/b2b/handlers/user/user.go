@@ -1,12 +1,12 @@
 package user
 
 import (
+	userService "b2b/service/user"
 	"fibercore"
 	"github.com/gofiber/fiber/v2"
 	"models/status_code"
 	"models/user"
 	"shareerrors"
-	userService "user/service/user"
 	"validator"
 )
 

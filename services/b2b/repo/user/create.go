@@ -1,8 +1,8 @@
 package user
 
 import (
+	"b2b/entities"
 	"context"
-	"user/entities"
 )
 
 func (g Gorm) Create(ctx context.Context, user entities.User) (*entities.User, error) {

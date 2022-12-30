@@ -1,14 +1,14 @@
 package user
 
 import (
+	"b2b/constant"
+	"b2b/entities"
+	"b2b/utils"
 	"context"
 	"errors"
 	"fmt"
 	"models/gateway"
 	models "models/user"
-	"user/constant"
-	"user/entities"
-	"user/utils"
 )
 
 func (s ServiceImpl) Me(ctx context.Context, userDetail gateway.User) (*models.MeResponse, error) {

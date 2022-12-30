@@ -1,9 +1,9 @@
 package callback
 
 import (
+	"b2b/configs"
+	"b2b/entities"
 	"github.com/gofiber/fiber/v2"
-	"user/configs"
-	"user/entities"
 )
 
 type Handlers struct {

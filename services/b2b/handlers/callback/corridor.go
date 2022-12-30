@@ -1,12 +1,12 @@
 package callback
 
 import (
+	"b2b/entities"
 	"errors"
 	"fmt"
 	"github.com/gofiber/fiber/v2"
 	"github.com/tidwall/gjson"
 	"strings"
-	"user/entities"
 )
 
 func (h *Handlers) Corridor(c *fiber.Ctx) error {

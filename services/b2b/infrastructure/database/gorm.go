@@ -1,6 +1,7 @@
 package database
 
 import (
+	"b2b/configs"
 	"fmt"
 	"go.uber.org/dig"
 	"gorm.io/driver/postgres"
@@ -9,7 +10,6 @@ import (
 	"log"
 	"os"
 	"time"
-	"user/configs"
 )
 
 type GatewayParams struct {

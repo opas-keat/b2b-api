@@ -1,6 +1,9 @@
 package user
 
 import (
+	"b2b/constant"
+	"b2b/entities"
+	"b2b/utils"
 	"context"
 	"github.com/AlekSi/pointer"
 	"github.com/jinzhu/copier"
@@ -10,9 +13,6 @@ import (
 	models "models/user"
 	"shareerrors"
 	"strings"
-	"user/constant"
-	"user/entities"
-	"user/utils"
 )
 
 func (s ServiceImpl) Register(ctx context.Context, req models.RegisterUserRequest) (*models.CreateUserResponse, error) {

@@ -1,8 +1,8 @@
 package user
 
 import (
+	"b2b/repo"
 	"gorm.io/gorm"
-	"user/repo"
 )
 
 type Gorm struct {

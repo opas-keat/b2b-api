@@ -1,8 +1,8 @@
 package user
 
 import (
+	"b2b/entities"
 	"context"
-	"user/entities"
 )
 
 func (g Gorm) Update(ctx context.Context, userId string, updateModel entities.User) error {

@@ -1,9 +1,9 @@
 package repo
 
 import (
+	"b2b/constant"
 	"context"
 	"gorm.io/gorm"
-	"user/constant"
 )
 
 func GetTxFromContext(ctx context.Context) *gorm.DB {

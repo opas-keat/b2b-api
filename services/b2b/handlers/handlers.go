@@ -1,8 +1,8 @@
 package handlers
 
 import (
+	"b2b/handlers/user"
 	"go.uber.org/dig"
-	"user/handlers/user"
 )
 
 type HandlerParams struct {

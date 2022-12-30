@@ -1,6 +1,9 @@
 package server
 
 import (
+	"b2b/configs"
+	"b2b/constant"
+	"b2b/handlers"
 	"fibercore"
 	"fmt"
 	"github.com/gofiber/fiber/v2"
@@ -9,9 +12,6 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
-	"user/configs"
-	"user/constant"
-	"user/handlers"
 )
 
 type FiberServ struct {

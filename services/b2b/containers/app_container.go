@@ -1,15 +1,15 @@
 package containers
 
 import (
+	"b2b/configs"
+	"b2b/handlers/callback"
+	userHandler "b2b/handlers/user"
+	"b2b/infrastructure/database"
+	"b2b/infrastructure/server"
+	"b2b/repo/user"
+	userService "b2b/service/user"
 	"fmt"
 	"go.uber.org/dig"
-	"user/configs"
-	"user/handlers/callback"
-	userHandler "user/handlers/user"
-	"user/infrastructure/database"
-	"user/infrastructure/server"
-	"user/repo/user"
-	userService "user/service/user"
 )
 
 type AppContainer struct {

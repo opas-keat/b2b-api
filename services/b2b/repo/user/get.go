@@ -1,12 +1,12 @@
 package user
 
 import (
+	"b2b/entities"
 	"context"
 	"errors"
 	"gorm.io/gorm"
 	"models/status_code"
 	"shareerrors"
-	"user/entities"
 )
 
 func (g Gorm) Get(ctx context.Context, filter entities.User) (*entities.User, error) {
