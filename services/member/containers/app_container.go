@@ -1,19 +1,20 @@
 package containers
 
 import (
-	userHandler "b2b/handlers/user"
-	"b2b/repo/user"
+	dealerconnector "connector/dealer"
 	"fmt"
 	"go.uber.org/dig"
 	"golang.org/x/exp/slog"
 	"member/configs"
+	dealerHandler "member/handlers/dealer"
+	userHandler "member/handlers/user"
 	"member/infrastructure/database"
 	"member/infrastructure/server"
 	"member/repo/dealer"
+	"member/repo/user"
 	dealerService "member/service/dealer"
 	userService "member/service/user"
 	"os"
-	dealerHandler "systemlink/handlers/dealer"
 )
 
 type AppContainer struct {
@@ -35,6 +36,8 @@ func NewAppContainer() (*AppContainer, error) {
 func (c *AppContainer) configure() error {
 	servicesConstructors := []interface{}{
 		configs.NewAppConfig,
+		//connector
+		dealerconnector.New,
 		// infra
 		server.NewFiberServ,
 		database.New,

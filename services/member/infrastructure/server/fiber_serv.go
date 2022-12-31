@@ -7,6 +7,7 @@ import (
 	"gorm.io/gorm"
 	"log"
 	"member/configs"
+	"member/constant"
 	"member/handlers"
 	"os"
 	"os/signal"
@@ -33,9 +34,27 @@ func NewFiberServ(c *configs.AppConfig, h handlers.HandlerParams, db *gorm.DB) S
 	return fiberServ
 }
 
+func dbTransactionMiddleware(db *gorm.DB) fiber.Handler {
+	return func(c *fiber.Ctx) error {
+		return db.Transaction(func(tx *gorm.DB) error {
+			c.Locals(constant.TxContextKey, tx)
+			return c.Next()
+		})
+	}
+}
+
+func (f *FiberServ) memberHandler(router fiber.Router) {
+	router.Post("/login", f.handler.User.Login)
+	//router.Get("/logout", f.handler.User.Logout)
+}
+
 func (f *FiberServ) configHandler() {
-	//f.app.Use(fibercore.SetServiceName(constant.ServiceName))
-	//v1 := f.app.Group("/api/v1")
+	f.app.Use(fibercore.SetServiceName(constant.ServiceName))
+	v1 := f.app.Group("/api/v1")
+
+	members := v1.Group("/members")
+	f.memberHandler(members)
+
 }
 
 func (f *FiberServ) Start() {

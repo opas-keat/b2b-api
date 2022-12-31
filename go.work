@@ -1,9 +1,11 @@
 go 1.19
 
 use (
+	./pkg/connector
 	./pkg/fiber-core
-	./pkg/share-errors
 	./pkg/models
+	./pkg/share-errors
+	./pkg/share_utils
 	./pkg/validator
 	./services/system_link
 	./services/b2b

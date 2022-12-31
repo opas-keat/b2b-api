@@ -5,6 +5,7 @@ import "strings"
 type (
 	Mode        string
 	ServiceName string
+	DealerURL   string
 	//WalletURL      string
 	//MemberURL      string
 	//ExternalURL    string
@@ -21,6 +22,10 @@ func (m Mode) String() string {
 
 func (s ServiceName) String() string {
 	return string(s)
+}
+
+func (d DealerURL) String() string {
+	return string(d)
 }
 
 //func (c ClientOrigin) String() string {
