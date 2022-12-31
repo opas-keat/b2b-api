@@ -35,6 +35,11 @@ func (s ServiceImpl) Login(ctx context.Context, username, password string) (*use
 	println(dealerResp.Name)
 	println(dealerResp.Phone)
 	println(dealerResp.Address)
+	//dealerListResp, err := s.dealerConnector.FindDealers(ctx, dc)
+	//if err != nil {
+	//	return nil, err
+	//}
+	//println(dealerListResp)
 	token, err := utils.GenerateToken(60*time.Minute, m.ID, constant.PrivateKey)
 	if err != nil {
 		return nil, errors.New(err.Error())

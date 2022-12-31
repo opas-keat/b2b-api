@@ -28,9 +28,16 @@ create table t_dealers (
     id varchar (36) primary key,
     name varchar (255) not null,
     address varchar (1000) not null,
-    email varchar (255) unique not null,
+    email varchar (255),
     phone varchar (100),
-    dealer_code varchar(50) unique not null
+    link_id varchar (100),
+    dealer_code varchar(50) unique not null,
+    created_by varchar,
+    created_at timestamp with time zone not null,
+    updated_by varchar,
+    updated_at timestamp with time zone not null,
+    deleted_by varchar,
+    deleted_at timestamp with time zone
 );
 
 create unique index idx_t_dealer_id

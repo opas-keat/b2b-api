@@ -6,5 +6,6 @@ import (
 )
 
 type DealerConnector interface {
-	GetDealer(ctx context.Context, dealerCode string) (*dealer.DealerResponse, error)
+	GetDealer(ctx context.Context, dealerCode string) (*dealer.Dealer, error)
+	FindDealers(ctx context.Context, dealerCode string) (*[]dealer.Dealer, error)
 }

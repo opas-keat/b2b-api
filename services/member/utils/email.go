@@ -33,10 +33,10 @@ func ParseTemplateDir(dir string) (*template.Template, error) {
 
 func SendEmail(data *email.Email) {
 	// Sender data.
-	from := "noreply@ppsuperwheels.com"
+	from := "PPSUPERWHEELS <noreply@ppsuperwheels.com>"
 	smtpPass := "+PPsuper@1234"
 	smtpUser := "noreply@ppsuperwheels.com"
-	to := "opas.keat@gmail.com"
+	to := data.To
 	smtpHost := "mail.ppsuperwheels.com"
 	smtpPort := 25
 
@@ -55,7 +55,7 @@ func SendEmail(data *email.Email) {
 	m.SetHeader("To", to)
 	m.SetHeader("Subject", data.Subject)
 	m.SetBody("text/html", body.String())
-	m.AddAlternative("text/plain", html2text.HTML2Text(body.String()))
+	m.AddAlternative("text/html", html2text.HTML2Text(body.String()))
 
 	d := gomail.NewDialer(smtpHost, smtpPort, smtpUser, smtpPass)
 	d.TLSConfig = &tls.Config{InsecureSkipVerify: true}

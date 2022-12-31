@@ -1,3 +1,10 @@
 package dealer
 
-type Service interface{}
+import (
+	"context"
+	"member/entities"
+)
+
+type Service interface {
+	CreateBatch(ctx context.Context, d *[]entities.Dealer) (*[]entities.Dealer, error)
+}

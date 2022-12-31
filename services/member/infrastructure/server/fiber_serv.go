@@ -46,6 +46,8 @@ func dbTransactionMiddleware(db *gorm.DB) fiber.Handler {
 func (f *FiberServ) memberHandler(router fiber.Router) {
 	router.Post("/login", f.handler.User.Login)
 	//router.Get("/logout", f.handler.User.Logout)
+	router.Post("/register", dbTransactionMiddleware(f.db), f.handler.User.Register)
+	router.Get("/verifyemail/:code", f.handler.User.VerifyEmail)
 }
 
 func (f *FiberServ) configHandler() {

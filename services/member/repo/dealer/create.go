@@ -5,9 +5,9 @@ import (
 	"member/entities"
 )
 
-func (g Gorm) Create(ctx context.Context, user entities.User) (*entities.User, error) {
-	if err := g.WithTxFromCtx(ctx).Create(&user).Error; err != nil {
+func (g Gorm) Create(ctx context.Context, dealer entities.Dealer) (*entities.Dealer, error) {
+	if err := g.WithTxFromCtx(ctx).Create(&dealer).Error; err != nil {
 		return nil, err
 	}
-	return &user, nil
+	return &dealer, nil
 }

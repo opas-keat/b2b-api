@@ -8,8 +8,8 @@ import (
 	"shareutils"
 )
 
-func (i impl) GetDealer(ctx context.Context, dealerCode string) (*dealer.DealerResponse, error) {
-	resp, err := shareutils.Get[dealer.DealerResponse](ctx, fmt.Sprintf("%v/api/v1/dealers/%v", i.url, dealerCode))
+func (i impl) GetDealer(ctx context.Context, dealerCode string) (*dealer.Dealer, error) {
+	resp, err := shareutils.Get[dealer.Dealer](ctx, fmt.Sprintf("%v/api/v1/dealers/%v", i.url, dealerCode))
 	if err != nil {
 		return nil, err
 	}

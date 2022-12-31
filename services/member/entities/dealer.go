@@ -2,6 +2,7 @@ package entities
 
 import (
 	"github.com/google/uuid"
+	"gorm.io/gorm"
 	"time"
 )
 
@@ -16,13 +17,14 @@ type Dealer struct {
 	Email      string  `gorm:"column:email"`
 	Phone      string  `gorm:"column:phone"`
 	DealerCode string  `gorm:"column:dealer_code;uniqueIndex;not null"`
+	LinkId     string  `gorm:"column:link_id"`
 }
 
 func (*Dealer) TableName() string {
 	return "t_dealers"
 }
 
-func (d *Dealer) BeforeCreate() (err error) {
+func (d *Dealer) BeforeCreate(tx *gorm.DB) (err error) {
 	if d.ID == "" {
 		d.ID = uuid.NewString()
 	}

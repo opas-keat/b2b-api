@@ -10,14 +10,14 @@ import (
 	"systemlink/entities"
 )
 
-func (s ServiceImpl) ListDealerByCode(ctx context.Context, filter dealer.ListDealerRequest, pagination models.Pagination) (*models.ListResponse[dealer.Dealer], error) {
+func (s ServiceImpl) ListDealerByCodeInternal(ctx context.Context, filter dealer.ListDealerRequest, pagination models.Pagination) (*[]dealer.Dealer, error) {
 	var (
 	//dealers *[]entities.Dealer
 	//count   int64
 	//err     error
 	)
 
-	result, count, err := s.dealerRepo.List(ctx, entities.Dealer{
+	result, _, err := s.dealerRepo.List(ctx, entities.Dealer{
 		FTCustCode: filter.FTCustCode,
 	}, &pagination, pointer.To(models.Count{}))
 	if err != nil {
@@ -33,8 +33,5 @@ func (s ServiceImpl) ListDealerByCode(ctx context.Context, filter dealer.ListDea
 			Phone:   d.FTCustPhoneInv,
 		}
 	})
-	return &models.ListResponse[dealer.Dealer]{
-		Rows:       rows,
-		TotalCount: count,
-	}, nil
+	return &rows, nil
 }

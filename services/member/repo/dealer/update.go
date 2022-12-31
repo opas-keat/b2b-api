@@ -5,9 +5,9 @@ import (
 	"member/entities"
 )
 
-func (g Gorm) Update(ctx context.Context, userId string, updateModel entities.User) error {
+func (g Gorm) Update(ctx context.Context, dealerId string, updateModel entities.Dealer) error {
 	return g.WithTxFromCtx(ctx).
-		Model(&entities.User{}).
-		Where("id = ?", userId).
+		Model(&entities.Dealer{}).
+		Where("id = ?", dealerId).
 		Updates(updateModel).Error
 }

@@ -1,6 +1,6 @@
 package dealer
 
-type DealerResponse struct {
+type Dealer struct {
 	ID      string `json:"id"`
 	Code    string `json:"code"`
 	Name    string `json:"name"`

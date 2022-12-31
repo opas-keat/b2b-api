@@ -4,7 +4,7 @@ import "time"
 
 type RegisterUserRequest struct {
 	//Username string `json:"username" validate:"required,min=8,max=20,username"`
-	Email      string `json:"email" validate:"required,min=8,max=20,email"`
+	Email      string `json:"email" validate:"required,min=8,max=100,email"`
 	Password   string `json:"password" validate:"required,min=6,max=32,password"`
 	DealerCode string `json:"dealer_code" validate:"required,min=6,max=32"`
 	//Phone        string  `json:"phone" validate:"required,len=10,phone"`

@@ -36,7 +36,9 @@ func NewFiberServ(c *configs.AppConfig, h handlers.HandlerParams, db *gorm.DB) S
 
 func (f *FiberServ) dealerHandler(router fiber.Router) {
 	router.Post("/", f.handler.Dealer.ListDealerByCode)
+	router.Post("/internal", f.handler.Dealer.ListDealerByCodeInternal)
 	router.Get("/:dealer_code", f.handler.Dealer.GetDealerByCode)
+
 }
 
 func (f *FiberServ) productHandler(router fiber.Router) {
