@@ -10,6 +10,10 @@ import (
 )
 
 func (h *Handlers) Create(c *fiber.Ctx) error {
+	userDetail, err := fibercore.GetUserFromHeader(c)
+	if err != nil {
+		return err
+	}
 	req := new(product.CreateProductRequest)
 	if err := c.BodyParser(req); err != nil {
 		return shareerrors.NewError(status_code.BadRequest, err.Error())
@@ -17,7 +21,7 @@ func (h *Handlers) Create(c *fiber.Ctx) error {
 	if err := validator.ValidateStruct(req); err != nil {
 		return err
 	}
-	resp, err := h.productService.Create(c.UserContext(), *req)
+	resp, err := h.productService.Create(c.UserContext(), *userDetail, *req)
 	if err != nil {
 		return err
 	}

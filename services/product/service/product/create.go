@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/AlekSi/pointer"
 	"github.com/jinzhu/copier"
+	"models/gateway"
 	"models/product"
 	"models/status_code"
 	"product/constant"
@@ -12,7 +13,7 @@ import (
 	"strconv"
 )
 
-func (s ServiceImpl) Create(ctx context.Context, req product.CreateProductRequest) (*product.CreateProductResponse, error) {
+func (s ServiceImpl) Create(ctx context.Context, userDetail gateway.User, req product.CreateProductRequest) (*product.CreateProductResponse, error) {
 
 	fPrice, err := strconv.ParseFloat(req.Price, 64)
 	if err != nil {
@@ -34,7 +35,7 @@ func (s ServiceImpl) Create(ctx context.Context, req product.CreateProductReques
 		Model:           req.Model,
 		Brand:           req.Brand,
 		Price:           fPrice,
-		CreatedBy:       pointer.ToString("admin"),
+		CreatedBy:       pointer.ToString(userDetail.MemberID),
 		PitchCircleCode: req.PitchCircleCode,
 		Color:           req.Color,
 		ProdGrpCode:     req.GroupCode,
