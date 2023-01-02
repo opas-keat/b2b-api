@@ -9,6 +9,7 @@ import (
 	"os"
 	"os/signal"
 	"product/configs"
+	"product/constant"
 	"product/handlers"
 	"syscall"
 )
@@ -33,9 +34,25 @@ func NewFiberServ(c *configs.AppConfig, h handlers.HandlerParams, db *gorm.DB) S
 	return fiberServ
 }
 
+func dbTransactionMiddleware(db *gorm.DB) fiber.Handler {
+	return func(c *fiber.Ctx) error {
+		return db.Transaction(func(tx *gorm.DB) error {
+			c.Locals(constant.TxContextKey, tx)
+			return c.Next()
+		})
+	}
+}
+
+func (f *FiberServ) productHandler(router fiber.Router) {
+	router.Post("/", dbTransactionMiddleware(f.db), f.handler.Product.Create)
+}
+
 func (f *FiberServ) configHandler() {
-	//f.app.Use(fibercore.SetServiceName(constant.ServiceName))
-	//v1 := f.app.Group("/api/v1")
+	f.app.Use(fibercore.SetServiceName(constant.ServiceName))
+	v1 := f.app.Group("/api/v1")
+
+	products := v1.Group("/products")
+	f.productHandler(products)
 }
 
 func (f *FiberServ) Start() {

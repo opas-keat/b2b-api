@@ -6,8 +6,11 @@ import (
 	"golang.org/x/exp/slog"
 	"os"
 	"product/configs"
+	productHandler "product/handlers/product"
 	"product/infrastructure/database"
 	"product/infrastructure/server"
+	"product/repo/product"
+	productService "product/service/product"
 )
 
 type AppContainer struct {
@@ -33,8 +36,11 @@ func (c *AppContainer) configure() error {
 		server.NewFiberServ,
 		database.New,
 		// repo
+		product.NewGormRepo,
 		// services
+		productService.New,
 		// handlers
+		productHandler.New,
 	}
 
 	for _, service := range servicesConstructors {

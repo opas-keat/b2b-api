@@ -10,7 +10,7 @@ type Service interface {
 	GetProductByCode(
 		ctx context.Context,
 		code string,
-	) (*product.ProductResponse, error)
+	) (*product.SystemLinkProductResponse, error)
 	ListBrandAndModel(
 		ctx context.Context,
 		filter product.ListBrandAndModelRequest,

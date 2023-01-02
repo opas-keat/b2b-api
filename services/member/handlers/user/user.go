@@ -9,6 +9,18 @@ import (
 	"validator"
 )
 
+func (h *Handlers) Me(c *fiber.Ctx) error {
+	userDetail, err := fibercore.GetUserFromHeader(c)
+	if err != nil {
+		return err
+	}
+	me, err := h.userService.Me(c.UserContext(), *userDetail)
+	if err != nil {
+		return err
+	}
+	return fibercore.JSONSuccess(c, me)
+}
+
 func (h *Handlers) Login(c *fiber.Ctx) error {
 	req := new(user.LoginRequest)
 	if err := c.BodyParser(req); err != nil {

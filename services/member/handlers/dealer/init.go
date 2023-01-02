@@ -1,4 +1,4 @@
-package user
+package dealer
 
 import (
 	"member/configs"

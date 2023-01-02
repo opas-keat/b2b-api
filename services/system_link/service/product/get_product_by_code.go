@@ -8,12 +8,12 @@ import (
 	"systemlink/entities"
 )
 
-func (s ServiceImpl) GetProductByCode(ctx context.Context, code string) (*product.ProductResponse, error) {
+func (s ServiceImpl) GetProductByCode(ctx context.Context, code string) (*product.SystemLinkProductResponse, error) {
 	p, err := s.productRepo.Get(ctx, entities.Product{FTProdCode: code})
 	if err != nil {
 		return nil, errors.New("get product by code not found")
 	}
-	return &product.ProductResponse{
+	return &product.SystemLinkProductResponse{
 		ID:              strconv.FormatUint(uint64(p.FNMSysProdId), 10),
 		Code:            p.FTProdCode,
 		Name:            p.FTProdNameTH,
@@ -25,7 +25,7 @@ func (s ServiceImpl) GetProductByCode(ctx context.Context, code string) (*produc
 		Offset:          p.FTOffsetNameTH,
 		PitchCircleCode: p.FTPitchCircleCode,
 		Price:           p.FNPrice,
-		ThreadWare:      p.FTTreadwareNameTH,
+		TreadWare:       p.FTTreadwareNameTH,
 		Width:           p.FTWidthNameTH,
 		GroupCode:       p.FTProdGrpCode,
 	}, nil

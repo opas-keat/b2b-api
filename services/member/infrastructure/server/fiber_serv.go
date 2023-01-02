@@ -48,6 +48,7 @@ func (f *FiberServ) memberHandler(router fiber.Router) {
 	//router.Get("/logout", f.handler.User.Logout)
 	router.Post("/register", dbTransactionMiddleware(f.db), f.handler.User.Register)
 	router.Get("/verifyemail/:code", f.handler.User.VerifyEmail)
+	router.Get("/me", f.handler.User.Me)
 }
 
 func (f *FiberServ) configHandler() {

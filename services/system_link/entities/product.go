@@ -8,13 +8,15 @@ type Product struct {
 	FTProdColorNameTH   string  `gorm:"column:FTProdColorNameTH"`
 	FTBrandNameTH       string  `gorm:"column:FTBrandNameTH"`
 	FTProdCode          string  `gorm:"column:FTProdCode"`
-	FTProdGrpCode       string  `gorm:"column:FNDealerPrice1"`
+	FTProdGrpCode       string  `gorm:"column:FTProdGrpCode"`
 	FTPitchCircleCode   string  `gorm:"column:FTPitchCircleCode"`
 	FTTreadwareNameTH   string  `gorm:"column:FTTreadwareNameTH"`
 	FTWidthNameTH       string  `gorm:"column:FTWidthNameTH"`
 	FNPrice             float64 `gorm:"column:FNPrice"`
 	FNDealerPrice1      float64 `gorm:"column:FNDealerPrice1"`
 	FNMSysProdId        uint    `gorm:"column:FNMSysProdId"`
+	FNQuantityBal       float64 `gorm:"column:FNQuantityBal"`
+	FNQuantityBalB      float64 `gorm:"column:FNQuantityBalB"`
 }
 
 func (*Product) TableName() string {
