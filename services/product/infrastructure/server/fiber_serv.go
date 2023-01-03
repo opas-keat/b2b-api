@@ -45,6 +45,7 @@ func dbTransactionMiddleware(db *gorm.DB) fiber.Handler {
 
 func (f *FiberServ) productHandler(router fiber.Router) {
 	router.Post("/", dbTransactionMiddleware(f.db), f.handler.Product.Create)
+	router.Get("/bams", f.handler.Product.ListBrandAndModel)
 }
 
 func (f *FiberServ) configHandler() {

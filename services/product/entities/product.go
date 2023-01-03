@@ -42,3 +42,8 @@ func (p *Product) BeforeCreate(tx *gorm.DB) (err error) {
 
 	return nil
 }
+
+type BrandAndModel struct {
+	Brand string `gorm:"column:brand"`
+	Model string `gorm:"column:model"`
+}
