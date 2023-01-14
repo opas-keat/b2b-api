@@ -16,8 +16,6 @@ type AppConfig struct {
 	DBName     string `env:"DB_NAME"`
 	DBPassword string `env:"DB_PASSWORD"`
 	DBPort     string `env:"DB_PORT"`
-
-	DealerURL models.DealerURL `env:"DEALER_URL"`
 }
 
 type ExposeAppConfig struct {
@@ -38,6 +36,5 @@ func NewAppConfig() (ExposeAppConfig, error) {
 
 	return ExposeAppConfig{
 		AppConfig: appCfg,
-		DealerURL: appCfg.DealerURL,
 	}, nil
 }

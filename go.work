@@ -11,4 +11,5 @@ use (
 	./services/b2b
 	./services/member
 	./services/product
+	./services/logs
 )
