@@ -60,7 +60,7 @@ func (f *FiberServ) configHandler() {
 
 func (f *FiberServ) Start() {
 	go func() {
-		if err := f.app.Listen(fmt.Sprintf("127.0.0.1:%v", f.config.Port)); err != nil {
+		if err := f.app.Listen(fmt.Sprintf(":%v", f.config.Port)); err != nil {
 			slog.Error("Error Start Fiber Server", err, "status", 500)
 		}
 	}()

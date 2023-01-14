@@ -32,6 +32,8 @@ create table t_dealers (
     phone varchar (100),
     link_id varchar (100),
     dealer_code varchar(50) unique not null,
+    set_default boolean default false,
+    disabled boolean default false,
     created_by varchar,
     created_at timestamp with time zone not null,
     updated_by varchar,

@@ -1,10 +1,7 @@
 package fibercore
 
 import (
-	"fmt"
 	"github.com/gofiber/fiber/v2"
-	"member/constant"
-	"member/utils"
 	"models"
 	"models/gateway"
 	"models/status_code"
@@ -85,19 +82,29 @@ func GetUserFromHeader(c *fiber.Ctx) (*gateway.User, error) {
 	if token == "" {
 		return nil, shareerrors.NewError(status_code.Forbidden, "Authorization is require")
 	}
-	sub, err := utils.ValidateToken(token, constant.PrivateKey)
-	if err != nil {
-		return nil, shareerrors.NewError(status_code.Forbidden, "token is invalid")
-	}
-	fields = strings.Split(fmt.Sprint(sub), "|")
+	//sub, err := utils.ValidateToken(token, constant.PrivateKey)
+	//if err != nil {
+	//	return nil, shareerrors.NewError(status_code.Forbidden, "token is invalid")
+	//}
+	//fields = strings.Split(fmt.Sprint(sub), "|")
+	//return &gateway.User{
+	//	Username:         fields[2],
+	//	AgentID:          nil,
+	//	MasterID:         nil,
+	//	IPAddress:        "",
+	//	MemberID:         fields[0],
+	//	Role:             "",
+	//	ReferrerMemberID: "",
+	//	RoleName:         fields[1],
+	//}, nil
 	return &gateway.User{
-		Username:         fields[2],
+		Username:         "",
 		AgentID:          nil,
 		MasterID:         nil,
 		IPAddress:        "",
-		MemberID:         fields[0],
+		MemberID:         "",
 		Role:             "",
 		ReferrerMemberID: "",
-		RoleName:         fields[1],
+		RoleName:         "",
 	}, nil
 }

@@ -15,6 +15,7 @@ type AppConfig struct {
 	DBName     string `env:"DB_NAME"`
 	DBPassword string `env:"DB_PASSWORD"`
 	DBPort     string `env:"DB_PORT"`
+	DBTest     string `env:"DB_PORT"`
 }
 
 type ExposeAppConfig struct {
