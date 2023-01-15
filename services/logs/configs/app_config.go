@@ -1,15 +1,13 @@
 package configs
 
 import (
-	"models"
-
 	"github.com/caarlos0/env/v6"
 	"go.uber.org/dig"
 )
 
 type AppConfig struct {
-	Mode models.Mode `env:"MODE"`
-	Port int         `env:"PORT"`
+	Mode string `env:"MODE"`
+	Port int    `env:"PORT"`
 
 	DBHost     string `env:"DB_HOST"`
 	DBUser     string `env:"DB_USER"`
@@ -21,7 +19,6 @@ type AppConfig struct {
 type ExposeAppConfig struct {
 	dig.Out
 	AppConfig *AppConfig
-	DealerURL models.DealerURL
 }
 
 func NewAppConfig() (ExposeAppConfig, error) {

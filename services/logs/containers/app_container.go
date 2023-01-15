@@ -5,10 +5,14 @@ import (
 	"logs/configs"
 	"logs/infrastructure/database"
 	"logs/infrastructure/server"
+	"logs/repo/logs"
 	"os"
 
 	"go.uber.org/dig"
 	"golang.org/x/exp/slog"
+
+	logsHandler "logs/handlers/logs"
+	logsService "logs/service/logs"
 )
 
 type AppContainer struct {
@@ -34,14 +38,11 @@ func (c *AppContainer) configure() error {
 		server.NewFiberServ,
 		database.New,
 		// repo
-		// user.NewGormRepo,
-		// dealer.NewGormRepo,
+		logs.NewGormRepo,
 		// services
-		// dealerService.New,
-		// userService.New,
+		logsService.New,
 		// handlers
-		// dealerHandler.New,
-		// userHandler.New,
+		logsHandler.New,
 	}
 
 	for _, service := range servicesConstructors {

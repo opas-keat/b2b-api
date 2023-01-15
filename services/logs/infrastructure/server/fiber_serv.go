@@ -45,6 +45,8 @@ func dbTransactionMiddleware(db *gorm.DB) fiber.Handler {
 }
 
 func (f *FiberServ) logsHandler(router fiber.Router) {
+	router.Post("/", dbTransactionMiddleware(f.db), f.handler.Logs.Create)
+	router.Post("/list", dbTransactionMiddleware(f.db), f.handler.Logs.List)
 }
 
 func (f *FiberServ) configHandler() {
@@ -58,7 +60,7 @@ func (f *FiberServ) configHandler() {
 
 func (f *FiberServ) Start() {
 	go func() {
-		if err := f.app.Listen(fmt.Sprintf("127.0.0.1:%v", f.config.Port)); err != nil {
+		if err := f.app.Listen(fmt.Sprintf(":%v", f.config.Port)); err != nil {
 			log.Panic(err)
 		}
 	}()
