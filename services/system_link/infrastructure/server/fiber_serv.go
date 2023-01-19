@@ -49,7 +49,7 @@ func (f *FiberServ) productHandler(router fiber.Router) {
 }
 
 func (f *FiberServ) shippingsHandler(router fiber.Router) {
-	router.Post("/", f.handler.Shipping.ListShippingByCode)
+	router.Post("/", f.handler.Shipping.ListShippingByRegion)
 	router.Get("/:code", f.handler.Shipping.GetShippingByCode)
 
 }

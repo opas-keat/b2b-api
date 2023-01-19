@@ -33,38 +33,38 @@ services:
         condition: service_started
 
 # ---------------------------------- Migration ----------------------------------
-  member_db_init:
-    image: migrate/migrate:4
-    volumes:
-    - $PWD/migrations/member/sql:/migrations
-    networks:
-    - default
-    command: -path=/migrations -database "postgres://db:5432/$MEMBER_DB_NAME?sslmode=disable&user=$DB_USER&password=$DB_PASSWORD" up
-    depends_on:
-      db_init_delay:
-        condition: service_completed_successfully
+  # member_db_init:
+  #   image: migrate/migrate:4
+  #   volumes:
+  #   - $PWD/migrations/member/sql:/migrations
+  #   networks:
+  #   - default
+  #   command: -path=/migrations -database "postgres://db:5432/$MEMBER_DB_NAME?sslmode=disable&user=$DB_USER&password=$DB_PASSWORD" up
+  #   depends_on:
+  #     db_init_delay:
+  #       condition: service_completed_successfully
 
-  product_db_init:
-    image: migrate/migrate:4
-    volumes:
-      - $PWD/migrations/product/sql:/migrations
-    networks:
-      - default
-    command: -path=/migrations -database "postgres://db:5432/$PRODUCT_DB_NAME?sslmode=disable&user=$DB_USER&password=$DB_PASSWORD" up
-    depends_on:
-      db_init_delay:
-        condition: service_completed_successfully
+  # product_db_init:
+  #   image: migrate/migrate:4
+  #   volumes:
+  #     - $PWD/migrations/product/sql:/migrations
+  #   networks:
+  #     - default
+  #   command: -path=/migrations -database "postgres://db:5432/$PRODUCT_DB_NAME?sslmode=disable&user=$DB_USER&password=$DB_PASSWORD" up
+  #   depends_on:
+  #     db_init_delay:
+  #       condition: service_completed_successfully
 
-  purchase_db_init:
-    image: migrate/migrate:4
-    volumes:
-      - $PWD/migrations/purchase/sql:/migrations
-    networks:
-      - default
-    command: -path=/migrations -database "postgres://db:5432/$PURCHASE_DB_NAME?sslmode=disable&user=$DB_USER&password=$DB_PASSWORD" up
-    depends_on:
-      db_init_delay:
-        condition: service_completed_successfully
+  # purchase_db_init:
+  #   image: migrate/migrate:4
+  #   volumes:
+  #     - $PWD/migrations/purchase/sql:/migrations
+  #   networks:
+  #     - default
+  #   command: -path=/migrations -database "postgres://db:5432/$PURCHASE_DB_NAME?sslmode=disable&user=$DB_USER&password=$DB_PASSWORD" up
+  #   depends_on:
+  #     db_init_delay:
+  #       condition: service_completed_successfully
 
   logs_db_init:
     image: migrate/migrate:4
@@ -78,27 +78,27 @@ services:
         condition: service_completed_successfully
 
 # ---------------------------------- Services ----------------------------------
-  # logs:
-  #   image: cosmtrek/air
-  #   working_dir: /services/logs
-  #   volumes:
-  #     - ./services/logs/:/services/logs
-  #     - ./pkg/:/pkg
-  #   networks:
-  #     - default
-  #   ports:
-  #     - "8084:8084"
-  #   depends_on:
-  #     db_init_delay:
-  #       condition: service_completed_successfully
-  #   environment:
-  #     PORT: 8084
-  #     MODE: local
-  #     DB_HOST: db
-  #     DB_USER: postgres
-  #     DB_NAME: logs
-  #     DB_PASSWORD: P@ssw0rdppswb2b
-  #     DB_PORT: 5432
+  logs:
+    image: cosmtrek/air
+    working_dir: /services/logs
+    volumes:
+      - ./services/logs/:/services/logs
+      - ./pkg/:/pkg
+    networks:
+      - default
+    ports:
+      - "8084:8084"
+    depends_on:
+      db_init_delay:
+        condition: service_completed_successfully
+    environment:
+      PORT: 8084
+      MODE: local
+      DB_HOST: db
+      DB_USER: postgres
+      DB_NAME: logs
+      DB_PASSWORD: P@ssw0rdppswb2b
+      DB_PORT: 5432
   system-link:
     image: cosmtrek/air
     working_dir: /services/system_link

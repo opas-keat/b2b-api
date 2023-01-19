@@ -12,7 +12,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-func (h *Handlers) ListShippingByCode(c *fiber.Ctx) error {
+func (h *Handlers) ListShippingByRegion(c *fiber.Ctx) error {
 	req := new(models.ListRequest[shipping.ListShippingRequest])
 	if err := c.BodyParser(req); err != nil {
 		return shareerrors.NewError(status_code.BadRequest, err.Error())
