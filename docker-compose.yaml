@@ -78,27 +78,27 @@ services:
         condition: service_completed_successfully
 
 # ---------------------------------- Services ----------------------------------
-  logs:
-    image: cosmtrek/air
-    working_dir: /services/logs
-    volumes:
-      - ./services/logs/:/services/logs
-      - ./pkg/:/pkg
-    networks:
-      - default
-    ports:
-      - "8084:8084"
-    depends_on:
-      db_init_delay:
-        condition: service_completed_successfully
-    environment:
-      PORT: 8084
-      MODE: local
-      DB_HOST: db
-      DB_USER: postgres
-      DB_NAME: logs
-      DB_PASSWORD: P@ssw0rdppswb2b
-      DB_PORT: 5432
+  # logs:
+  #   image: cosmtrek/air
+  #   working_dir: /services/logs
+  #   volumes:
+  #     - ./services/logs/:/services/logs
+  #     - ./pkg/:/pkg
+  #   networks:
+  #     - default
+  #   ports:
+  #     - "8084:8084"
+  #   depends_on:
+  #     db_init_delay:
+  #       condition: service_completed_successfully
+  #   environment:
+  #     PORT: 8084
+  #     MODE: local
+  #     DB_HOST: db
+  #     DB_USER: postgres
+  #     DB_NAME: logs
+  #     DB_PASSWORD: P@ssw0rdppswb2b
+  #     DB_PORT: 5432
   system-link:
     image: cosmtrek/air
     working_dir: /services/system_link

@@ -1,13 +1,16 @@
 package handlers
 
 import (
-	"go.uber.org/dig"
 	"systemlink/handlers/dealer"
 	"systemlink/handlers/product"
+	"systemlink/handlers/shipping"
+
+	"go.uber.org/dig"
 )
 
 type HandlerParams struct {
 	dig.In
-	Dealer  *dealer.Handlers
-	Product *product.Handlers
+	Dealer   *dealer.Handlers
+	Product  *product.Handlers
+	Shipping *shipping.Handlers
 }

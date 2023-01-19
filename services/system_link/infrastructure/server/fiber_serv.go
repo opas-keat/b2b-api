@@ -3,15 +3,16 @@ package server
 import (
 	"fibercore"
 	"fmt"
-	"github.com/gofiber/fiber/v2"
-	"golang.org/x/exp/slog"
-	"gorm.io/gorm"
 	"os"
 	"os/signal"
 	"syscall"
 	"systemlink/configs"
 	"systemlink/constant"
 	"systemlink/handlers"
+
+	"github.com/gofiber/fiber/v2"
+	"golang.org/x/exp/slog"
+	"gorm.io/gorm"
 )
 
 type FiberServ struct {
@@ -47,6 +48,12 @@ func (f *FiberServ) productHandler(router fiber.Router) {
 
 }
 
+func (f *FiberServ) shippingsHandler(router fiber.Router) {
+	router.Post("/", f.handler.Shipping.ListShippingByCode)
+	router.Get("/:code", f.handler.Shipping.GetShippingByCode)
+
+}
+
 func (f *FiberServ) configHandler() {
 	f.app.Use(fibercore.SetServiceName(constant.ServiceName))
 	v1 := f.app.Group("/api/v1")
@@ -56,6 +63,9 @@ func (f *FiberServ) configHandler() {
 
 	products := v1.Group("/products")
 	f.productHandler(products)
+
+	shippings := v1.Group("/shippings")
+	f.shippingsHandler(shippings)
 }
 
 func (f *FiberServ) Start() {
@@ -64,6 +74,12 @@ func (f *FiberServ) Start() {
 			slog.Error("Error Start Fiber Server", err, "status", 500)
 		}
 	}()
+
+	// go func() {
+	// 	if err := f.app.Listen(fmt.Sprintf(":%v", f.config.Port)); err != nil {
+	// 		log.Panic(err)
+	// 	}
+	// }()
 
 	c := make(chan os.Signal, 1)
 	signal.Notify(c, os.Interrupt, syscall.SIGTERM)

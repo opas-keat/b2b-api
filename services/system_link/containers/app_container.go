@@ -2,18 +2,22 @@ package containers
 
 import (
 	"fmt"
-	"go.uber.org/dig"
-	"golang.org/x/exp/slog"
 	"os"
 	"systemlink/configs"
 	dealerHandler "systemlink/handlers/dealer"
 	productHandler "systemlink/handlers/product"
+	shippingsHandler "systemlink/handlers/shipping"
 	"systemlink/infrastructure/database"
 	"systemlink/infrastructure/server"
 	"systemlink/repo/dealer"
 	"systemlink/repo/product"
+	"systemlink/repo/shipping"
 	dealerService "systemlink/service/dealer"
 	productService "systemlink/service/product"
+	shippingService "systemlink/service/shipping"
+
+	"go.uber.org/dig"
+	"golang.org/x/exp/slog"
 )
 
 type AppContainer struct {
@@ -41,12 +45,15 @@ func (c *AppContainer) configure() error {
 		// repo
 		dealer.NewGormRepo,
 		product.NewGormRepo,
+		shipping.NewGormRepo,
 		// services
 		dealerService.New,
 		productService.New,
+		shippingService.New,
 		// handlers
 		dealerHandler.New,
 		productHandler.New,
+		shippingsHandler.New,
 	}
 
 	for _, service := range servicesConstructors {
