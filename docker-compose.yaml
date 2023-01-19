@@ -1,52 +1,28 @@
 version: "3.9"
 
+volumes:
+  pg_data:
+#  minio_data:
+
+networks:
+  default:
+
 services:
-# ---------------------------------- Gateway -----------------------------
-#  gateway:
-#    image: traefik:v2.9.6
-#    restart: always
-#    command:
-#      # - "--log.level=DEBUG"
-#      - "--log.level=DEBUG"
-#      - "--api=true"
-#      - "--api.dashboard=true"
-#      - "--api.insecure=true"
-#      - "--providers.docker"
-#      - "--entrypoints.web.address=:80"
-#      - "--entrypoints.websecure.address=:443"
-#    labels:
-#      - "traefik.http.middlewares.my-compress.compress=true"
-#    volumes:
-#      - type: bind
-#        source: /var/run/docker.sock
-#        target: /var/run/docker.sock
-#        read_only: true
-#    ports:
-#      - target: 80
-#        published: 80
-#        protocol: tcp
-#        mode: host
-##      - target: 8080
-##        published: 8080
-##        protocol: tcp
-##        mode: host
-#    networks:
-#      - default
 # ---------------------------------- DB ----------------------------------
   db:
-      image: postgres:15.1
-      restart: always
-      environment:
-        TZ: Asia/Bangkok
-        POSTGRES_MULTIPLE_DATABASES: $MEMBER_DB_NAME,$PRODUCT_DB_NAME,$PURCHASE_DB_NAME,$LOG_DB_NAME
-        POSTGRES_USER: ${DB_USER}
-        POSTGRES_PASSWORD: ${DB_PASSWORD}
-      volumes:
+    image: postgres:15.1
+    restart: always
+    environment:
+      TZ: Asia/Bangkok
+      POSTGRES_MULTIPLE_DATABASES: $LOG_DB_NAME
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
       - pg_data:/var/lib/postgresql/data
       - ./create-multiple-postgresql-databases.sh:/docker-entrypoint-initdb.d/create-multiple-postgresql-databases.sh
-      ports:
-      - "5433:5432"
-      networks:
+    ports:
+      - "5432:5432"
+    networks:
       - default
   
   db_init_delay:
@@ -112,6 +88,9 @@ services:
       - default
     ports:
       - "8084:8084"
+    depends_on:
+      db_init_delay:
+        condition: service_completed_successfully
     environment:
       PORT: 8084
       MODE: local
@@ -120,24 +99,24 @@ services:
       DB_NAME: logs
       DB_PASSWORD: P@ssw0rdppswb2b
       DB_PORT: 5432
-#  system-link:
-#    image: cosmtrek/air
-#    working_dir: /services/system_link
-#    volumes:
-#      - ./services/system_link/:/services/system_link
-#      - ./pkg/:/pkg
-#    networks:
-#      - default
-#    ports:
-#      - "8081:8081"
-#    environment:
-#      PORT: 8081
-#      MODE: local
-#      DB_HOST: 1.179.175.97
-#      DB_USER: appdev
-#      DB_NAME: DBWebApp
-#      DB_PASSWORD: dev@1234
-#      DB_PORT: 1433
+  system-link:
+    image: cosmtrek/air
+    working_dir: /services/system_link
+    volumes:
+      - ./services/system_link/:/services/system_link
+      - ./pkg/:/pkg
+    networks:
+      - default
+    ports:
+      - "8081:8081"
+    environment:
+      PORT: 8081
+      MODE: local
+      DB_HOST: 1.179.175.97
+      DB_USER: appdev
+      DB_NAME: DBWebApp
+      DB_PASSWORD: dev@1234
+      DB_PORT: 1433
 # ---------------------------------- Minio ----------------------------------
 #  minio:
 #    image: minio/minio
@@ -165,9 +144,3 @@ services:
 #    depends_on:
 #      - minio
 
-volumes:
-  pg_data:
-#  minio_data:
-
-networks:
-  default:
