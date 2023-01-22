@@ -14,14 +14,14 @@ services:
     restart: always
     environment:
       TZ: Asia/Bangkok
-      POSTGRES_MULTIPLE_DATABASES: $LOG_DB_NAME
+      POSTGRES_MULTIPLE_DATABASES: $DMS_DB_NAME
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
     volumes:
       - pg_data:/var/lib/postgresql/data
       - ./create-multiple-postgresql-databases.sh:/docker-entrypoint-initdb.d/create-multiple-postgresql-databases.sh
     ports:
-      - "5432:5432"
+      - "5433:5432"
     networks:
       - default
   
@@ -66,57 +66,68 @@ services:
   #     db_init_delay:
   #       condition: service_completed_successfully
 
-  logs_db_init:
+  # logs_db_init:
+  #   image: migrate/migrate:4
+  #   volumes:
+  #     - $PWD/migrations/logs/sql:/migrations
+  #   networks:
+  #     - default
+  #   command: -path=/migrations -database "postgres://db:5432/$LOG_DB_NAME?sslmode=disable&user=$DB_USER&password=$DB_PASSWORD" up
+  #   depends_on:
+  #     db_init_delay:
+  #       condition: service_completed_successfully
+
+  dms_db_init:
     image: migrate/migrate:4
     volumes:
-      - $PWD/migrations/logs/sql:/migrations
+      - $PWD/migrations/dms/sql:/migrations
     networks:
       - default
-    command: -path=/migrations -database "postgres://db:5432/$LOG_DB_NAME?sslmode=disable&user=$DB_USER&password=$DB_PASSWORD" up
+    command: -path=/migrations -database "postgres://db:5432/$DMS_DB_NAME?sslmode=disable&user=$DB_USER&password=$DB_PASSWORD" up
     depends_on:
       db_init_delay:
         condition: service_completed_successfully
 
 # ---------------------------------- Services ----------------------------------
-  logs:
-    image: cosmtrek/air
-    working_dir: /services/logs
-    volumes:
-      - ./services/logs/:/services/logs
-      - ./pkg/:/pkg
-    networks:
-      - default
-    ports:
-      - "8084:8084"
-    depends_on:
-      db_init_delay:
-        condition: service_completed_successfully
-    environment:
-      PORT: 8084
-      MODE: local
-      DB_HOST: db
-      DB_USER: postgres
-      DB_NAME: logs
-      DB_PASSWORD: P@ssw0rdppswb2b
-      DB_PORT: 5432
-  system-link:
-    image: cosmtrek/air
-    working_dir: /services/system_link
-    volumes:
-      - ./services/system_link/:/services/system_link
-      - ./pkg/:/pkg
-    networks:
-      - default
-    ports:
-      - "8081:8081"
-    environment:
-      PORT: 8081
-      MODE: local
-      DB_HOST: 1.179.175.97
-      DB_USER: appdev
-      DB_NAME: DBWebApp
-      DB_PASSWORD: dev@1234
-      DB_PORT: 1433
+  # logs:
+  #   image: cosmtrek/air
+  #   working_dir: /services/logs
+  #   volumes:
+  #     - ./services/logs/:/services/logs
+  #     - ./pkg/:/pkg
+  #   networks:
+  #     - default
+  #   ports:
+  #     - "8084:8084"
+  #   depends_on:
+  #     db_init_delay:
+  #       condition: service_completed_successfully
+  #   environment:
+  #     PORT: 8084
+  #     MODE: local
+  #     DB_HOST: db
+  #     DB_USER: postgres
+  #     DB_NAME: logs
+  #     DB_PASSWORD: P@ssw0rdppswb2b
+  #     DB_PORT: 5432
+  # system-link:
+  #   image: cosmtrek/air
+  #   working_dir: /services/system_link
+  #   volumes:
+  #     - ./services/system_link/:/services/system_link
+  #     - ./pkg/:/pkg
+  #   networks:
+  #     - default
+  #   ports:
+  #     - "8081:8081"
+  #   environment:
+  #     PORT: 8081
+  #     MODE: local
+  #     DB_HOST: 1.179.175.97
+  #     DB_USER: appdev
+  #     DB_NAME: DBWebApp
+  #     DB_PASSWORD: dev@1234
+  #     DB_PORT: 1433
 # ---------------------------------- Minio ----------------------------------
 #  minio:
 #    image: minio/minio
