@@ -35,6 +35,10 @@ func NewFiberServ(c *configs.AppConfig, h handlers.HandlerParams, db *gorm.DB) S
 	return fiberServ
 }
 
+func (f *FiberServ) presaleordersHandler(router fiber.Router) {
+	router.Post("/", f.handler.PreSaleOrder.CreatePreSaleOrder)
+}
+
 func (f *FiberServ) dealerHandler(router fiber.Router) {
 	router.Post("/", f.handler.Dealer.ListDealerByCode)
 	router.Post("/internal", f.handler.Dealer.ListDealerByCodeInternal)
@@ -66,6 +70,9 @@ func (f *FiberServ) configHandler() {
 
 	shippings := v1.Group("/shippings")
 	f.shippingsHandler(shippings)
+
+	presaleorders := v1.Group("/presaleorders")
+	f.presaleordersHandler(presaleorders)
 }
 
 func (f *FiberServ) Start() {

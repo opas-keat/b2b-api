@@ -12,6 +12,10 @@ type Product struct {
 	FTPitchCircleCode   string  `gorm:"column:FTPitchCircleCode"`
 	FTTreadwareNameTH   string  `gorm:"column:FTTreadwareNameTH"`
 	FTWidthNameTH       string  `gorm:"column:FTWidthNameTH"`
+	FTLoadIndexNameTH   string  `gorm:"column:FTLoadIndexNameTH"`
+	FTSpeedIndexNameTH  string  `gorm:"column:FTSpeedIndexNameTH"`
+	FTYear              string  `gorm:"column:FTYear"`
+	FTWeek              string  `gorm:"column:FTWeek"`
 	FNPrice             float64 `gorm:"column:FNPrice"`
 	FNDealerPrice1      float64 `gorm:"column:FNDealerPrice1"`
 	FNMSysProdId        uint    `gorm:"column:FNMSysProdId"`

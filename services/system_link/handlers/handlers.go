@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"systemlink/handlers/dealer"
+	"systemlink/handlers/presaleorder"
 	"systemlink/handlers/product"
 	"systemlink/handlers/shipping"
 
@@ -10,7 +11,8 @@ import (
 
 type HandlerParams struct {
 	dig.In
-	Dealer   *dealer.Handlers
-	Product  *product.Handlers
-	Shipping *shipping.Handlers
+	Dealer       *dealer.Handlers
+	Product      *product.Handlers
+	Shipping     *shipping.Handlers
+	PreSaleOrder *presaleorder.Handlers
 }

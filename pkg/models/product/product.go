@@ -17,6 +17,12 @@ type SystemLinkProductResponse struct {
 	Price           float64 `json:"price"`
 	DealerPrice1    float64 `json:"dealer_price_1"`
 	GroupCode       string  `json:"group_code"`
+	LoadIndex       string  `json:"load_index"`
+	SpeedIndex      string  `json:"speed_index"`
+	Year            string  `json:"year"`
+	Week            string  `json:"week"`
+	Balance         float64 `json:"balance"`
+	BalanceB        float64 `json:"balance_b"`
 }
 
 type BrandAndModelResponse struct {
@@ -82,4 +88,9 @@ type CreateProductResponse struct {
 	DealerPrice     float64   `json:"dealer_price"`
 	QuantityBal     float64   `json:"quantity_balance"`
 	QuantityBalB    float64   `json:"quantity_balance_b"`
+}
+
+type BalanceResponse struct {
+	Balance  string `json:"balance"`
+	BalanceB string `json:"balance_b"`
 }

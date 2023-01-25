@@ -5,14 +5,18 @@ import (
 	"os"
 	"systemlink/configs"
 	dealerHandler "systemlink/handlers/dealer"
+	presaleorderHandler "systemlink/handlers/presaleorder"
 	productHandler "systemlink/handlers/product"
 	shippingsHandler "systemlink/handlers/shipping"
 	"systemlink/infrastructure/database"
 	"systemlink/infrastructure/server"
 	"systemlink/repo/dealer"
+	"systemlink/repo/presaleorder"
 	"systemlink/repo/product"
 	"systemlink/repo/shipping"
+
 	dealerService "systemlink/service/dealer"
+	presaleorderService "systemlink/service/presaleorder"
 	productService "systemlink/service/product"
 	shippingService "systemlink/service/shipping"
 
@@ -46,14 +50,17 @@ func (c *AppContainer) configure() error {
 		dealer.NewGormRepo,
 		product.NewGormRepo,
 		shipping.NewGormRepo,
+		presaleorder.NewGormRepo,
 		// services
 		dealerService.New,
 		productService.New,
 		shippingService.New,
+		presaleorderService.New,
 		// handlers
 		dealerHandler.New,
 		productHandler.New,
 		shippingsHandler.New,
+		presaleorderHandler.New,
 	}
 
 	for _, service := range servicesConstructors {

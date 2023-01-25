@@ -1,4 +1,4 @@
-package dealer
+package presaleorder
 
 import (
 	"systemlink/repo"
